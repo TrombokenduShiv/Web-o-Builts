@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="WebCraft Sutra — Premium SaaS web design & SEO growth platform. We build, optimize, and maintain websites that convert visitors into customers.">
+  <title>WebCraft Sutra — Web Design & SEO Growth Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- ── Theme Wave Overlay ── -->
+  <div class="theme-wave" id="themeWave" aria-hidden="true">
+    <div class="theme-wave-circle" id="themeWaveCircle"></div>
+  </div>
+
+  <!-- ── SEO Prediction Overlay ── -->
+  <div class="seo-anim-overlay" id="seoOverlay" aria-live="polite">
+    <div class="seo-bars" id="seoBars">
+      <div class="seo-bar"></div>
+      <div class="seo-bar"></div>
+      <div class="seo-bar"></div>
+      <div class="seo-bar"></div>
+      <div class="seo-bar"></div>
+      <div class="seo-bar"></div>
+    </div>
+    <div class="seo-label" id="seoLabel">Analyzing Growth Potential...</div>
+    <div class="seo-sub">Predicting your traffic increase</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION BAR
+  ═══════════════════════════════════════════ -->
+  <header id="navbar" role="banner">
+    <a href="#" class="nav-logo" aria-label="WebCraft Sutra Home">
+      <img src="images/logo.png" alt="WebCraft Sutra" class="nav-logo-img">
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#why-us">Why Us</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#footer">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" role="switch"
+        aria-checked="true"></button>
+      <button class="btn-portal" id="portalBtn" onclick="openAuthModal()">
+        Login / Sign Up
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section id="hero" aria-label="Hero">
+    <!-- Liquid Canvas -->
+    <div id="liquid-canvas" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
+      <div class="blob blob-5"></div>
+      <div class="bubble bubble-1"></div>
+      <div class="bubble bubble-2"></div>
+      <div class="bubble bubble-3"></div>
+      <div class="bubble bubble-4"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <div class="hero-badge reveal" aria-label="Platform label">
+        Best Marketing Website For Your Business. Grow With Us!
+      </div>
+
+      <h1 class="hero-headline reveal reveal-delay-1">
+        Your Website Should
+        <span class="highlight">Drive Revenue.</span>
+      </h1>
+
+      <p class="hero-subheadline reveal reveal-delay-2">
+        We craft high-performance websites with precision SEO, monthly maintenance,
+        and real analytics — all tailored for your business growth.
+      </p>
+
+      <!-- Hook Input + CTA -->
+      <div class="hero-input-group reveal reveal-delay-2" id="heroInputGroup">
+        <input type="text" id="businessNameInput" class="hero-input" placeholder="Enter your business name..."
+          aria-label="Enter your business name" autocomplete="off">
+        <button class="mic-btn" id="micBtn" type="button" aria-label="Voice input" title="Speak your business name">
+          <svg class="mic-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+          <span class="mic-ripple"></span>
+        </button>
+        <button class="btn-cta" id="ctaBtn" aria-label="Analyze my growth">
+          <span class="btn-text">⚡ Analyze My Growth</span>
+          <div class="btn-spinner" aria-hidden="true"></div>
+        </button>
+      </div>
+
+      <!-- Trust signals -->
+      <div class="hero-trust reveal reveal-delay-3">
+        <span class="trust-item">
+          <span class="trust-dot" aria-hidden="true">✓</span>
+          No credit card required
+        </span>
+        <span class="trust-item">
+          <span class="trust-dot" aria-hidden="true">✓</span>
+          Free consultation
+        </span>
+        <span class="trust-item">
+          <span class="trust-dot" aria-hidden="true">✓</span>
+          SEO-first approach
+        </span>
+      </div>
+    </div>
+
+    <!-- Scroll Cue -->
+    <div class="scroll-cue" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       WHY US SECTION
+  ═══════════════════════════════════════════ -->
+  <section id="why-us" aria-labelledby="why-us-title">
+    <div class="section-header">
+      <div class="section-tag reveal">Why Choose Us</div>
+      <h2 id="why-us-title" class="section-title reveal reveal-delay-1">
+        Built for <span class="gradient-text">Results</span>, Not Just Looks
+      </h2>
+      <p class="section-subtitle reveal reveal-delay-2">
+        Every website we build is engineered to rank, convert, and grow with your business.
+      </p>
+    </div>
+
+    <div class="cards-grid">
+      <!-- Card 1: Speed -->
+      <article class="why-card gradient-border reveal" tabindex="0">
+        <div class="clay-icon clay-icon-1" aria-hidden="true">🚀</div>
+        <h3>Blazing Fast Delivery</h3>
+        <p>
+          From kickoff to launch in record time. Our streamlined workflow ensures
+          your site goes live without endless delays — fully optimised for Core Web Vitals.
+        </p>
+        <div class="card-stat" aria-label="Average launch time: 14 days">
+          ⏱ Avg. 14-Day Launch
+        </div>
+      </article>
+
+      <!-- Card 2: SEO -->
+      <article class="why-card gradient-border reveal reveal-delay-1" tabindex="0">
+        <div class="clay-icon clay-icon-2" aria-hidden="true">📈</div>
+        <h3>SEO-First Architecture</h3>
+        <p>
+          Every page is structured for search engines from the ground up — semantic HTML,
+          schema markup, keyword strategy, and ongoing content optimisation included.
+        </p>
+        <div class="card-stat" aria-label="Average traffic increase: 3x in 90 days">
+          📊 3× Traffic in 90 Days
+        </div>
+      </article>
+
+      <!-- Card 3: Maintenance -->
+      <article class="why-card gradient-border reveal reveal-delay-2" tabindex="0">
+        <div class="clay-icon clay-icon-3" aria-hidden="true">🛡️</div>
+        <h3>Zero-Stress Maintenance</h3>
+        <p>
+          Monthly security patches, image optimisation, performance monitoring,
+          and content updates — we handle it so you can focus on your business.
+        </p>
+        <div class="card-stat" aria-label="Uptime guarantee: 99.9%">
+          🔒 99.9% Uptime Guarantee
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PACKAGES SECTION
+  ═══════════════════════════════════════════ -->
+  <section id="packages" aria-labelledby="packages-title">
+    <div class="section-header">
+      <div class="section-tag reveal">Pricing</div>
+      <h2 id="packages-title" class="section-title reveal reveal-delay-1">
+        Simple, <span class="gradient-text">Transparent</span> Packages
+      </h2>
+      <p class="section-subtitle reveal reveal-delay-2">
+        Choose the plan that fits your stage of growth. No hidden fees, ever.
+      </p>
+    </div>
+
+    <div class="packages-grid">
+      <!-- Standard Tier -->
+      <article class="pkg-card reveal" tabindex="0">
+        <div class="pkg-badge standard">
+          <span class="dot"></span>
+          Standard
+        </div>
+        <h3 class="pkg-name">Essential</h3>
+        <div class="pkg-price">
+          <span class="gradient-text">One-Time Plan</span>
+        </div>
+
+        <hr class="pkg-divider">
+        <ul class="pkg-features" aria-label="Essentials plan features">
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Custom Website Build
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Managed Hosting (1 Year)
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Mobile-First Responsive Design
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Basic On-Page SEO Setup
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Contact Form & Lead Capture
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            30-Day Post-Launch Support
+          </li>
+        </ul>
+        <a href="#footer" class="btn-outline" id="standardCTA">
+          <span>Start Essential →</span>
+        </a>
+      </article>
+
+      <!-- Pro Tier -->
+      <article class="pkg-card featured reveal reveal-delay-1" tabindex="0">
+        <div class="pkg-badge pro">
+          <span class="dot"></span>
+          ✦ Pro — Most Popular
+        </div>
+        <h3 class="pkg-name">Growth</h3>
+        <div class="pkg-price gradient-text">
+          Monthly Plan
+        </div>
+        <hr class="pkg-divider">
+        <ul class="pkg-features" aria-label="Growth plan features">
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Everything in Essentials
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Full SEO Optimisation Suite
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Monthly Maintenance & Updates
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Web Performance Boosting
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Analytics Dashboard Access
+          </li>
+          <li>
+            <span class="feature-check" aria-hidden="true">✓</span>
+            Priority Support (WhatsApp / Email)
+          </li>
+        </ul>
+        <button class="btn-primary" id="proCTA">
+          Start Growth
+        </button>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo" aria-label="WebCraft Sutra Home">
+            <img src="images/logo.png" alt="WebCraft Sutra" class="footer-logo-img">
+          </a>
+          <p class="footer-desc">
+            Premium web design, SEO, and growth services for ambitious businesses.
+            We build websites that don't just look great — they perform.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="#why-us">Why Us</a></li>
+              <li><a href="#packages">Packages</a></li>
+              <li><a href="#" onclick="openAuthModal('signup'); return false;">Get Started</a></li>
+              <li><a href="#" onclick="openAuthModal('login'); return false;">Client Portal</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Service</a></li>
+              <li><a href="/refund">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:hello@webcraftsutra.com">hello@webcraftsutra.com</a></li>
+              <li><a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a></li>
+              <li><a href="/dashboard/calls">Schedule a Call</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-copyright">
+          © 2026 WebCraft Sutra. All rights reserved.
+        </span>
+        <nav class="footer-legal" aria-label="Legal links">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/refund">Refund</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       AUTH MODAL
+  ═══════════════════════════════════════════ -->
+  <div id="authModal" class="auth-modal-overlay" role="dialog" aria-modal="true" aria-label="Authentication"
+    data-theme="dark">
+    <div class="auth-modal-card" id="authModalCard">
+
+      <!-- Close Button -->
+      <button class="auth-close" id="authClose" aria-label="Close modal">✕</button>
+
+      <!-- Logo -->
+      <div class="auth-logo">
+        <img src="images/logo.png" alt="WebCraft Sutra" class="auth-logo-img">
+      </div>
+
+      <!-- ── SCREEN 1: Choose Login or Sign Up ── -->
+      <div class="auth-screen" id="authScreenChoose">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Join thousands of businesses growing with us.</p>
+        <div class="auth-choice-buttons">
+          <button class="auth-choice-btn auth-choice-login" id="chooseLogin">
+            <span class="auth-choice-icon">🔑</span>
+            Login
+          </button>
+          <button class="auth-choice-btn auth-choice-signup" id="chooseSignup">
+            <span class="auth-choice-icon">✨</span>
+            Sign Up
+          </button>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 2a: Login — Choose Method ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenLogin">
+        <button class="auth-back" id="loginBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Login</h2>
+        <p class="auth-subtitle">Choose how you'd like to log in.</p>
+        <div class="auth-method-buttons">
+          <button class="auth-method-btn" id="loginWithEmail">
+            <span class="auth-method-icon">📧</span>
+            Continue with Google
+          </button>
+          <div class="auth-or"><span>or</span></div>
+          <button class="auth-method-btn" id="loginWithPhone">
+            <span class="auth-method-icon">📱</span>
+            Enter your Mobile Number
+          </button>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 2b: Login — Email Form ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenLoginEmail">
+        <button class="auth-back" id="loginEmailBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Login with Email</h2>
+        <p class="auth-subtitle">Enter your credentials to continue.</p>
+        <form class="auth-form" id="loginEmailForm" onsubmit="return false;">
+          <div class="auth-field">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <div class="auth-field">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn-primary auth-submit" id="loginEmailSubmit">Login →</button>
+        </form>
+      </div>
+
+      <!-- ── SCREEN 2c: Login — Phone Form ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenLoginPhone">
+        <button class="auth-back" id="loginPhoneBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Login with Mobile</h2>
+        <p class="auth-subtitle">We'll send you a verification code.</p>
+        <form class="auth-form" id="loginPhoneForm" onsubmit="return false;">
+          <div class="auth-field">
+            <label for="loginPhone">Mobile Number</label>
+            <input type="tel" id="loginPhone" placeholder="+91 98765 43210" autocomplete="tel">
+          </div>
+          <button type="submit" class="btn-primary auth-submit" id="loginPhoneSubmit">Send OTP →</button>
+        </form>
+      </div>
+
+      <!-- ── SCREEN 3a: Sign Up — Choose Method ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenSignup">
+        <button class="auth-back" id="signupBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Start your growth journey today.</p>
+        <div class="auth-method-buttons">
+          <button class="auth-method-btn" id="signupWithEmail">
+            <span class="auth-method-icon">📧</span>
+            Continue with Google
+          </button>
+          <div class="auth-or"><span>or</span></div>
+          <button class="auth-method-btn" id="signupWithPhone">
+            <span class="auth-method-icon">📱</span>
+            Enter your Mobile Number
+          </button>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 3b: Sign Up — Email Form ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenSignupEmail">
+        <button class="auth-back" id="signupEmailBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Sign Up with Email</h2>
+        <p class="auth-subtitle">Create your free account.</p>
+        <form class="auth-form" id="signupEmailForm" onsubmit="return false;">
+          <div class="auth-field">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" placeholder="Your Name" autocomplete="name">
+          </div>
+          <div class="auth-field">
+            <label for="signupEmail">Email Address</label>
+            <input type="email" id="signupEmail" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <div class="auth-field">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a password" autocomplete="new-password">
+          </div>
+          <button type="submit" class="btn-primary auth-submit" id="signupEmailSubmit">Create Account →</button>
+        </form>
+      </div>
+
+      <!-- ── SCREEN 3c: Sign Up — Phone Form ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenSignupPhone">
+        <button class="auth-back" id="signupPhoneBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Sign Up with Mobile</h2>
+        <p class="auth-subtitle">We'll send you a verification code.</p>
+        <form class="auth-form" id="signupPhoneForm" onsubmit="return false;">
+          <div class="auth-field">
+            <label for="signupPhoneName">Full Name</label>
+            <input type="text" id="signupPhoneName" placeholder="Your Name" autocomplete="name">
+          </div>
+          <div class="auth-field">
+            <label for="signupPhone">Mobile Number</label>
+            <input type="tel" id="signupPhone" placeholder="+91 98765 43210" autocomplete="tel">
+          </div>
+          <button type="submit" class="btn-primary auth-submit" id="signupPhoneSubmit">Send OTP →</button>
+        </form>
+      </div>
+
+      <!-- ── SCREEN OTP: Verify Mobile ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenOTP">
+        <button class="auth-back" id="otpBack" aria-label="Go back">← Back</button>
+        <h2 class="auth-title">Verify your Number</h2>
+        <p class="auth-subtitle">Enter the 4-digit code sent to your mobile.</p>
+
+        <div class="otp-boxes" id="otpBoxes">
+          <input class="otp-input" id="otp1" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
+            aria-label="Digit 1">
+          <input class="otp-input" id="otp2" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
+            aria-label="Digit 2">
+          <input class="otp-input" id="otp3" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
+            aria-label="Digit 3">
+          <input class="otp-input" id="otp4" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
+            aria-label="Digit 4">
+        </div>
+
+        <p class="otp-hint">We'll send you a verification code.</p>
+
+        <div class="otp-timer-row">
+          <span class="otp-timer-label" id="otpTimerLabel">Resend in <strong id="otpTimerCount">60</strong>s</span>
+          <button class="otp-resend-btn" id="otpResendBtn" style="display:none;">Resend</button>
+        </div>
+
+        <button class="btn-primary auth-submit" id="otpVerifyBtn">Verify &amp; Continue →</button>
+      </div>
+
+      <!-- ── SCREEN 4: Success ── -->
+      <div class="auth-screen auth-screen-hidden" id="authScreenSuccess">
+        <div class="auth-success-icon">🎉</div>
+        <h2 class="auth-title auth-success-title">Congratulations!</h2>
+        <p class="auth-success-quote">
+          Welcome to the <span class="gradient-text">WebCraft Sutra</span> family.<br>
+          Let's grow together!
+        </p>
+        <button class="btn-primary auth-submit" id="authSuccessClose">Let's Go ✦</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

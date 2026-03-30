@@ -1,0 +1,203 @@
+.ana-page { animation: pageFadeIn 0.45s ease forwards; }
+
+/* ── Upsell ── */
+.ana-upsell-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.ana-upsell-modal {
+  max-width: 420px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px;
+  box-shadow:
+    0 24px 72px rgba(0,0,0,0.45),
+    0 4px 20px rgba(233,30,140,0.15);
+  text-align: center;
+}
+
+.ana-upsell-icon {
+  width: 64px; height: 64px;
+  border-radius: var(--radius-lg);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  border: 1px solid rgba(233,30,140,0.25);
+}
+
+.ana-upsell-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.ana-upsell-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-2);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+
+.ana-upsell-desc strong { color: var(--color-accent); }
+
+.ana-upsell-perks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.ana-upsell-perks li {
+  font-size: 0.87rem;
+  color: var(--color-text-2);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-2);
+  border-left: 3px solid var(--color-accent);
+}
+
+/* ── Stats grid ── */
+.ana-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ana-stat {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-xl);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s;
+}
+
+.ana-stat:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+
+.ana-stat-icon-wrap {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 4px;
+  border: 1px solid rgba(233,30,140,0.2);
+}
+
+.ana-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.ana-stat-label { font-size: 0.78rem; color: var(--color-text-3); }
+
+.ana-stat-change {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.ana-stat-change.up    { color: #4caf87; }
+.ana-stat-change.neutral { color: var(--color-text-3); }
+
+/* ── Charts ── */
+.ana-chart-card,
+.ana-log-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+
+.ana-chart-title {
+  font-family: var(--font-display);
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.ana-tooltip {
+  background: rgba(13,8,38,0.92);
+  border: 1px solid rgba(233,30,140,0.3);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 0.82rem;
+}
+
+.ana-tooltip-label { color: var(--color-text-3); margin-bottom: 4px; }
+.ana-tooltip-val { font-weight: 600; }
+
+/* ── Timeline ── */
+.ana-timeline { display: flex; flex-direction: column; gap: 4px; position: relative; }
+
+.ana-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: var(--color-border);
+}
+
+.ana-timeline-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  transition: background 0.2s;
+}
+
+.ana-timeline-item:hover { background: var(--color-surface-2); }
+
+.ana-timeline-dot {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: var(--gradient-accent);
+  box-shadow: 0 0 0 3px rgba(233,30,140,0.15);
+  flex-shrink: 0;
+  margin-top: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.ana-timeline-content { flex: 1; }
+
+.ana-timeline-text {
+  font-size: 0.88rem;
+  color: var(--color-text-2);
+  line-height: 1.5;
+}
+
+.ana-timeline-date {
+  font-size: 0.75rem;
+  color: var(--color-text-4);
+  margin-top: 3px;
+}

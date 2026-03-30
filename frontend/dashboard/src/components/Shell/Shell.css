@@ -1,0 +1,21 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--gradient-bg);
+}
+
+.shell-main {
+  flex: 1;
+  min-height: 100vh;
+  margin-left: var(--sidebar-width);
+  padding: 32px 36px;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .shell-main {
+    margin-left: 0;
+    padding: 20px 16px;
+    padding-bottom: calc(var(--bottombar-height) + 20px);
+  }
+}

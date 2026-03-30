@@ -1,0 +1,454 @@
+.billing-page { animation: pageFadeIn 0.45s ease forwards; }
+
+/* ── Tabs ── */
+.billing-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.billing-tab-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: var(--color-text-3);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.billing-tab-btn.active { color: var(--color-accent); font-weight: 600; }
+.billing-tab-btn:not(.active):hover { color: var(--color-text-2); background: var(--color-surface); }
+
+.billing-tab-underline {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradient-accent);
+}
+
+/* ── Scope Card ── */
+.billing-scope-card {
+  display: flex;
+  gap: 0;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(233,30,140,0.10), rgba(255,138,101,0.06));
+  border: 1px solid rgba(233,30,140,0.22);
+  backdrop-filter: blur(12px);
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+.billing-scope-left { flex: 0 0 auto; }
+
+.billing-scope-pkg {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: 4px;
+}
+
+.billing-scope-label { font-size: 0.78rem; color: var(--color-text-3); }
+
+.billing-scope-price {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.billing-scope-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(233,30,140,0.2);
+  flex-shrink: 0;
+}
+
+.billing-scope-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.billing-scope-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--color-text-2);
+}
+
+.billing-scope-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Contract (OPAQUE — strict readability) ── */
+.billing-contract-wrap {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.billing-contract-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--color-surface-3);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.billing-contract-body {
+  max-height: 300px;
+  overflow-y: auto;
+  /* OPAQUE panel — no transparency for max readability */
+  background: #0e0923;
+  padding: 24px;
+}
+
+[data-theme="light"] .billing-contract-body { background: #fff; }
+
+.billing-contract-text {
+  font-family: var(--font-body);
+  font-size: 0.83rem;
+  line-height: 1.8;
+  color: var(--color-text-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Signature ── */
+.billing-sign-section {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+/* Floating label */
+.billing-sign-field-wrap { position: relative; }
+
+.billing-floating-field {
+  position: relative;
+}
+
+.billing-floating-field input {
+  width: 100%;
+  padding: 20px 16px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.billing-floating-field input:focus {
+  border-color: rgba(233,30,140,0.5);
+  box-shadow: 0 0 0 3px rgba(233,30,140,0.10);
+}
+
+.billing-floating-field label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: var(--color-text-3);
+  pointer-events: none;
+  transition: all 0.25s var(--ease-spring);
+}
+
+.billing-floating-field input:focus ~ label,
+.billing-floating-field.has-value label {
+  top: 10px;
+  transform: translateY(0);
+  font-size: 0.72rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Agree row */
+.billing-agree-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--color-text-2);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.billing-agree-row.signed { opacity: 0.6; cursor: default; }
+
+.billing-checkbox-wrap { flex-shrink: 0; cursor: pointer; }
+
+.billing-custom-checkbox {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-border-2);
+  background: var(--color-surface-2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s ease;
+  color: #fff;
+}
+
+.billing-custom-checkbox.checked {
+  background: linear-gradient(135deg, #4caf87, #2e7d5a);
+  border-color: transparent;
+  box-shadow: 0 3px 10px rgba(76,175,135,0.4);
+}
+
+.billing-custom-checkbox svg { width: 13px; height: 13px; }
+
+/* Sign button */
+.billing-sign-btn {
+  align-self: flex-start;
+  padding: 11px 24px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border-2);
+  background: var(--color-surface-2);
+  color: var(--color-text-3);
+  font-family: var(--font-display);
+  font-size: 0.93rem;
+  font-weight: 600;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.billing-sign-btn.ready {
+  border-color: rgba(233,30,140,0.45);
+  background: rgba(233,30,140,0.10);
+  color: var(--color-text);
+  cursor: pointer;
+  box-shadow: 0 3px 14px rgba(233,30,140,0.18);
+}
+
+.billing-sign-btn.ready:hover {
+  background: rgba(233,30,140,0.18);
+  box-shadow: 0 6px 20px rgba(233,30,140,0.28);
+}
+
+.billing-signed-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4caf87;
+}
+
+/* ── Pay Section ── */
+.billing-pay-section {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.billing-pay-label {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.billing-pay-btn-wrap { display: flex; flex-direction: column; gap: 8px; }
+
+.billing-pay-btn {
+  position: relative;
+  overflow: hidden;
+  padding: 14px 28px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface-2);
+  color: var(--color-text-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.97rem;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  max-width: 380px;
+}
+
+.billing-pay-btn.active {
+  border-color: rgba(233,30,140,0.5);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(233,30,140,0.35);
+  background: linear-gradient(135deg, rgba(233,30,140,0.1), rgba(255,138,101,0.08));
+}
+
+.billing-pay-btn.done {
+  background: linear-gradient(135deg, #4caf87, #2e7d5a);
+  border-color: transparent;
+  color: #fff;
+  cursor: default;
+  box-shadow: 0 4px 16px rgba(76,175,135,0.4);
+}
+
+/* Liquid wipe fill */
+.billing-pay-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  transform-origin: left;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.billing-pay-label-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.billing-pay-hint { font-size: 0.78rem; color: var(--color-text-4); }
+
+/* ── Vault ── */
+.billing-vault-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.billing-vault-header,
+.billing-vault-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 0.7fr 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 13px 20px;
+  font-size: 0.85rem;
+}
+
+.billing-vault-header {
+  background: var(--color-surface-2);
+  color: var(--color-text-3);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.billing-vault-row {
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-2);
+  transition: background 0.2s;
+}
+
+.billing-vault-row:last-child { border-bottom: none; }
+.billing-vault-row:hover { background: var(--color-surface-2); }
+
+.billing-vault-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.billing-doc-type-badge {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.billing-doc-type-badge.agreement { background: rgba(91,156,246,0.15); color: #5b9cf6; }
+.billing-doc-type-badge.invoice   { background: rgba(255,181,71,0.15); color: #ffb547; }
+.billing-doc-type-badge.receipt   { background: rgba(76,175,135,0.15); color: #4caf87; }
+
+.billing-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-3);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(233,30,140,0.2);
+  transition: all 0.2s;
+}
+
+.billing-download-btn:hover {
+  background: rgba(233,30,140,0.12);
+  border-color: rgba(233,30,140,0.4);
+}
+
+.billing-spinner {
+  display: inline-block;
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@media (max-width: 600px) {
+  .billing-vault-header, .billing-vault-row {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+  .billing-vault-header span:nth-child(4),
+  .billing-vault-row span:nth-child(4) { display: none; }
+}

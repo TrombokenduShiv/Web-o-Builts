@@ -1,0 +1,56 @@
+.bottombar {
+  display: none; /* shown only on mobile */
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--bottombar-height);
+  z-index: 200;
+  background: rgba(13, 8, 38, 0.88);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border-top: 1px solid rgba(255,255,255,0.09);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+}
+
+.bottombar-item {
+  display: none;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: rgba(196, 184, 224, 0.45);
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+}
+
+.bottombar-item.active {
+  color: var(--color-accent);
+}
+
+.bottombar-active-bg {
+  position: absolute;
+  top: 6px; bottom: 6px; left: 4px; right: 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(233, 30, 140, 0.12);
+  z-index: 0;
+}
+
+.bottombar-item > * { position: relative; z-index: 1; }
+
+@media (max-width: 768px) {
+  .bottombar { display: flex; }
+  .bottombar-item { display: flex; }
+}

@@ -1,0 +1,186 @@
+/* ============================================================
+   WEBCRAFT SUTRA DASHBOARD — GLOBAL DESIGN SYSTEM
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* ── Color Palette ── */
+  --color-bg:          #0d0826;
+  --color-bg-2:        #120a30;
+  --color-surface:     rgba(255, 255, 255, 0.04);
+  --color-surface-2:   rgba(255, 255, 255, 0.07);
+  --color-surface-3:   rgba(255, 255, 255, 0.11);
+  --color-border:      rgba(255, 255, 255, 0.10);
+  --color-border-2:    rgba(255, 255, 255, 0.16);
+
+  --color-accent:      #e91e8c;
+  --color-accent-2:    #ff8a65;
+  --color-accent-3:    #f06292;
+  --color-accent-soft: rgba(233, 30, 140, 0.15);
+  --color-accent-glow: rgba(233, 30, 140, 0.35);
+
+  --color-text:        #f0eeff;
+  --color-text-2:      rgba(196, 184, 224, 0.85);
+  --color-text-3:      rgba(196, 184, 224, 0.50);
+  --color-text-4:      rgba(196, 184, 224, 0.35);
+
+  --color-success:     #4caf87;
+  --color-warning:     #ffb547;
+  --color-info:        #5b9cf6;
+
+  /* ── Gradients ── */
+  --gradient-accent:   linear-gradient(135deg, #e91e8c, #ff8a65);
+  --gradient-bg:       linear-gradient(135deg, #0d0826 0%, #1a0e3d 45%, #0a1628 100%);
+  --gradient-glass:    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+
+  /* ── Glass ── */
+  --glass-bg:          rgba(255, 255, 255, 0.05);
+  --glass-blur:        blur(24px) saturate(1.8);
+  --glass-border:      rgba(255, 255, 255, 0.10);
+  --glass-shadow:      0 8px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.08) inset;
+
+  /* ── Clay (Claymorphism) ── */
+  --clay-bg:           rgba(233, 30, 140, 0.18);
+  --clay-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    inset 0 -3px 6px rgba(0,0,0,0.22),
+    0 4px 16px rgba(233, 30, 140, 0.20);
+
+  /* ── Sidebar ── */
+  --sidebar-width:     260px;
+  --bottombar-height:  64px;
+
+  /* ── Typography ── */
+  --font-display:      'Outfit', sans-serif;
+  --font-body:         'Inter', sans-serif;
+
+  /* ── Radius ── */
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+
+  /* ── Transitions ── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Light Theme ── */
+[data-theme="light"] {
+  --color-bg:        #f4f1ff;
+  --color-bg-2:      #ede8ff;
+  --color-surface:   rgba(0,0,0,0.03);
+  --color-surface-2: rgba(0,0,0,0.05);
+  --color-surface-3: rgba(0,0,0,0.08);
+  --color-border:    rgba(0,0,0,0.08);
+  --color-border-2:  rgba(0,0,0,0.12);
+  --color-text:      #1a0e3d;
+  --color-text-2:    rgba(40,20,80,0.75);
+  --color-text-3:    rgba(40,20,80,0.50);
+  --color-text-4:    rgba(40,20,80,0.30);
+  --glass-bg:        rgba(255,255,255,0.55);
+  --glass-border:    rgba(255,255,255,0.70);
+  --glass-shadow:    0 8px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+  --gradient-bg:     linear-gradient(135deg, #f4f1ff 0%, #e8e0ff 45%, #dff0ff 100%);
+}
+
+html, body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: 16px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background 0.4s ease, color 0.4s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Utility Classes ── */
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-xl);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: var(--radius-md);
+  background: var(--gradient-accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.97rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  box-shadow: 0 4px 20px var(--color-accent-glow);
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px var(--color-accent-glow);
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.93rem;
+  border: 1px solid var(--color-border-2);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(233,30,140,0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(233,30,140,0.5); }
+
+/* ── Input base ── */
+input, textarea, select {
+  font-family: var(--font-body);
+}
