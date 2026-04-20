@@ -62,7 +62,7 @@ export default function Login() {
 
         {/* Logo */}
         <div className="login-logo">
-          <img src="/logo.png" alt="Web-o-Builts" className="login-logo-img" />
+          <img src="/logo-icon.png" alt="Web-o-Builts" className="login-logo-img" />
         </div>
 
         <h1 className="login-title">Client Portal</h1>

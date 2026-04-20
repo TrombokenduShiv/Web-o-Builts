@@ -293,8 +293,9 @@ h4 {
 }
 
 .nav-logo-img {
-    height: 42px;
+    height: 38px;
     width: auto;
+    max-width: 180px;
     display: block;
     object-fit: contain;
 }
@@ -1550,8 +1551,9 @@ h4 {
 }
 
 .footer-logo-img {
-    height: 36px;
+    height: 32px;
     width: auto;
+    max-width: 160px;
     object-fit: contain;
     filter: brightness(1.1);
 }
@@ -1862,8 +1864,9 @@ h4 {
 }
 
 .auth-logo-img {
-    height: 48px;
+    height: 44px;
     width: auto;
+    max-width: 200px;
     object-fit: contain;
 }
 
