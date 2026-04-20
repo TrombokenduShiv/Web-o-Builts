@@ -1,6 +1,6 @@
-# WebCraft Sutra Backend
+# Web-o-Builts Backend
 
-This is the Django backend for the WebCraft Sutra project.
+This is the Django backend for the Web-o-Builts project.
 
 ## Prerequisites
 - Python 3.10+
@@ -10,8 +10,8 @@ This is the Django backend for the WebCraft Sutra project.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/TrombokenduShiv/WebCraft-Sutra.git
-   cd WebCraft-Sutra/backend
+   git clone https://github.com/TrombokenduShiv/Web-o-Builts.git
+   cd Web-o-Builts/backend
    ```
 
 2. **Create a virtual environment:**

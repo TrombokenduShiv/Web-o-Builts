@@ -1,5 +1,5 @@
 /* ============================================================
-   WEBCRAFT SUTRA — MAIN JAVASCRIPT
+   WEB-O-BUILTS — MAIN JAVASCRIPT
    ============================================================ */
 
 (function () {
@@ -13,7 +13,7 @@
   const themeWaveCircle = document.getElementById('themeWaveCircle');
 
   // Load saved theme — default is DARK
-  const savedTheme = localStorage.getItem('wcs-theme') || 'dark';
+  const savedTheme = localStorage.getItem('wob-theme') || 'dark';
   htmlEl.setAttribute('data-theme', savedTheme);
   themeToggle.setAttribute('aria-checked', savedTheme === 'dark' ? 'true' : 'false');
 
@@ -27,7 +27,7 @@
     setTimeout(function () {
       htmlEl.setAttribute('data-theme', newTheme);
       themeToggle.setAttribute('aria-checked', String(!isDark));
-      localStorage.setItem('wcs-theme', newTheme);
+      localStorage.setItem('wob-theme', newTheme);
     }, 400);
 
     setTimeout(function () {

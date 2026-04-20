@@ -62,7 +62,7 @@ export default function Login() {
 
         {/* Logo */}
         <div className="login-logo">
-          <img src="/logo.png" alt="WebCraft Sutra" className="login-logo-img" />
+          <img src="/logo.png" alt="Web-o-Builts" className="login-logo-img" />
         </div>
 
         <h1 className="login-title">Client Portal</h1>
@@ -130,12 +130,12 @@ export default function Login() {
         </form>
 
         <p className="login-footer-text">
-          Need help? <a href="mailto:hello@webcraftsutra.com">Contact us</a>
+          Need help? <a href="mailto:hello@web-o-builts.com">Contact us</a>
         </p>
       </motion.div>
 
       {/* Bottom branding */}
-      <p className="login-branding">© 2026 WebCraft Sutra. All rights reserved.</p>
+      <p className="login-branding">© 2026 Web-o-Builts. All rights reserved.</p>
     </div>
   );
 }

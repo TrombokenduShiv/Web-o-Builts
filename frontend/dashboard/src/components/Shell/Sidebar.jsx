@@ -29,7 +29,7 @@ export default function Sidebar() {
 
       {/* Logo */}
       <div className="sidebar-logo">
-        <img src="/logo.png" alt="WebCraft Sutra" className="sidebar-logo-img" />
+        <img src="/logo.png" alt="Web-o-Builts" className="sidebar-logo-img" />
       </div>
 
       {/* User profile */}

@@ -113,7 +113,7 @@ export async function getBillingStatus() {
     contract_signed: false,
     contract_text: `WEBSITE DEVELOPMENT AGREEMENT
 
-This Website Development Agreement ("Agreement") is entered into as of the date of digital signature between WebCraft Sutra ("Agency") and the Client as identified by their registered account.
+This Website Development Agreement ("Agreement") is entered into as of the date of digital signature between Web-o-Builts ("Agency") and the Client as identified by their registered account.
 
 1. SCOPE OF WORK
 Agency agrees to design, develop, and deliver a high-performance, SEO-optimised website as per the Pro Growth Package specifications. Deliverables include a custom responsive website, SEO architecture setup, 12 months of managed hosting, and monthly maintenance.
@@ -157,9 +157,9 @@ export async function getBillingDocuments() {
   await delay(300);
   return [
     { id: 1, name: 'Agreement — Pro Growth Package', date: '2025-03-10', type: 'Agreement', size: '142 KB', url: '#' },
-    { id: 2, name: 'Invoice #WCS-001 — Advance Payment', date: '2025-03-11', type: 'Invoice', size: '88 KB', url: '#' },
+    { id: 2, name: 'Invoice #WOB-001 — Advance Payment', date: '2025-03-11', type: 'Invoice', size: '88 KB', url: '#' },
     { id: 3, name: 'Receipt — ₹25,500 Advance', date: '2025-03-11', type: 'Receipt', size: '64 KB', url: '#' },
-    { id: 4, name: 'Invoice #WCS-002 — Balance Payment', date: '2025-04-01', type: 'Invoice', size: '91 KB', url: '#' },
+    { id: 4, name: 'Invoice #WOB-002 — Balance Payment', date: '2025-04-01', type: 'Invoice', size: '91 KB', url: '#' },
     { id: 5, name: 'Receipt — ₹59,500 Balance', date: '2025-04-01', type: 'Receipt', size: '67 KB', url: '#' },
   ];
 }
