@@ -9,8 +9,23 @@ SCOPES = [
 ]
 
 def get_sheets_client():
-    # In production, this would be a path to a real service account JSON file
-    # For now, we stub it so the codebase works without crashing.
+    # First, try to load from a Base64 encoded environment variable (Best for Render/Heroku)
+    base64_creds = os.environ.get('GOOGLE_CREDENTIALS_BASE64')
+    if base64_creds:
+        import base64
+        import json
+        try:
+            decoded_bytes = base64.b64decode(base64_creds)
+            creds_info = json.loads(decoded_bytes.decode('utf-8'))
+            credentials = Credentials.from_service_account_info(
+                creds_info, scopes=SCOPES
+            )
+            return gspread.authorize(credentials)
+        except Exception as e:
+            print(f"Failed to load Base64 credentials: {e}")
+            return None
+
+    # Fallback: Try to load from a physical file path
     service_account_path = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
     if not service_account_path or not os.path.exists(service_account_path):
         return None
