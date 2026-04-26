@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getBillingStatus, signAgreement, initiateAdvancePayment, getBillingDocuments } from '../../services/api';
+import { getBillingStatus, signAgreement, initiateAdvancePayment, getBillingDocuments, verifyRazorpayPayment } from '../../services/api';
 import { FileText, Download, CreditCard, CheckCircle, Shield } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import './Billing.css';
 
 const slideVariants = {
@@ -11,6 +12,7 @@ const slideVariants = {
 };
 
 export default function Billing() {
+  const { user } = useAuth();
   const [tab, setTab] = useState(0);
   const [prevTab, setPrevTab] = useState(0);
   const [billing, setBilling] = useState(null);
@@ -56,9 +58,46 @@ export default function Billing() {
   const handlePay = async () => {
     if (!signed) return;
     setPayLoading(true);
-    await initiateAdvancePayment();
-    setPayLoading(false);
-    setPayDone(true);
+    try {
+      const orderData = await initiateAdvancePayment();
+      
+      const options = {
+        key: 'rzp_test_dummy_key', // This is safe to expose, but usually passed from backend
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Web-o-Builts',
+        description: '30% Advance Payment',
+        order_id: orderData.order_id,
+        handler: async function (response) {
+          try {
+            await verifyRazorpayPayment(
+              response.razorpay_payment_id,
+              response.razorpay_order_id,
+              response.razorpay_signature
+            );
+            setPayDone(true);
+          } catch (verifyErr) {
+            alert('Payment verification failed.');
+          }
+        },
+        prefill: {
+          name: user?.owner_name || '',
+          email: user?.email || '',
+        },
+        theme: { color: '#e91e8c' }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+          alert('Payment Failed: ' + response.error.description);
+      });
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to initiate payment.');
+    } finally {
+      setPayLoading(false);
+    }
   };
 
   const canSign = sigName.trim().length >= 3 && agreed;

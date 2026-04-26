@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getAvailableSlots, bookCall, getCallHistory, initiateSecondCallPayment } from '../../services/api';
+import { getAvailableSlots, bookCall, getCallHistory, initiateSecondCallPayment, verifyRazorpayPayment } from '../../services/api';
 import { Video, Clock, CheckCircle, ChevronRight, Phone } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import './Calls.css';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 export default function Calls() {
+  const { user } = useAuth();
   const [slots, setSlots] = useState([]);
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,9 +42,46 @@ export default function Calls() {
 
   const handlePaySecondCall = async () => {
     setPayLoading(true);
-    await initiateSecondCallPayment();
-    setPayLoading(false);
-    setPayDone(true);
+    try {
+      const orderData = await initiateSecondCallPayment();
+      
+      const options = {
+        key: 'rzp_test_dummy_key', // This is safe to expose, but usually passed from backend
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Web-o-Builts',
+        description: 'Strategy Call Fee',
+        order_id: orderData.order_id,
+        handler: async function (response) {
+          try {
+            await verifyRazorpayPayment(
+              response.razorpay_payment_id,
+              response.razorpay_order_id,
+              response.razorpay_signature
+            );
+            setPayDone(true);
+          } catch (verifyErr) {
+            alert('Payment verification failed.');
+          }
+        },
+        prefill: {
+          name: user?.owner_name || '',
+          email: user?.email || '',
+        },
+        theme: { color: '#e91e8c' }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+          alert('Payment Failed: ' + response.error.description);
+      });
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to initiate payment.');
+    } finally {
+      setPayLoading(false);
+    }
   };
 
   // Group slots into weeks for calendar display

@@ -359,12 +359,13 @@
   document.getElementById('loginEmailBack').addEventListener('click', function () { showScreen('login'); });
   document.getElementById('loginPhoneBack').addEventListener('click', function () { showScreen('login'); });
 
-  // Login form submissions (demo — just closes modal)
+  // Login form submissions → redirect to dashboard
   document.getElementById('loginEmailForm').addEventListener('submit', function () {
-    window.closeAuthModal();
+    window.location.href = 'http://localhost:5173';
   });
   document.getElementById('loginPhoneForm').addEventListener('submit', function () {
-    window.closeAuthModal();
+    showScreen('otp');
+    startOtpFlow();
   });
 
   // ── Sign Up flow ──
@@ -380,9 +381,9 @@
     showScreen('otp');
   });
 
-  // Success screen close
+  // Success screen close → go to dashboard
   document.getElementById('authSuccessClose').addEventListener('click', function () {
-    window.closeAuthModal();
+    window.location.href = 'http://localhost:5173';
   });
 
   /* ────────────────────────────────────────────
@@ -459,13 +460,13 @@
     startOtpTimer();
   });
 
-  // Verify button — go to success
+  // Verify button — go to success then redirect
   document.getElementById('otpVerifyBtn').addEventListener('click', function () {
     if (otpTimerInterval) { clearInterval(otpTimerInterval); otpTimerInterval = null; }
     showScreen('success');
   });
 
-  // Signup email → success
+  // Signup email → success screen
   document.getElementById('signupEmailForm').addEventListener('submit', function () {
     showScreen('success');
   });
