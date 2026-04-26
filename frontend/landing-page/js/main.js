@@ -128,7 +128,7 @@
     'Building your report...',
   ];
 
-  ctaBtn.addEventListener('click', function () {
+  ctaBtn.addEventListener('click', async function () {
     if (ctaBtn.classList.contains('loading')) return;
 
     const businessName = businessInput.value.trim() || 'Your Business';
@@ -150,20 +150,42 @@
       }
     }, 600);
 
-    // After 3.2s → fade out + open signup modal
-    setTimeout(function () {
+    try {
+      const response = await fetch('http://localhost:8000/api/marketing/analyze-growth/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ business_name: businessName })
+      });
+      const data = await response.json();
+
       clearInterval(msgInterval);
-      seoLabel.textContent = '🚀 ' + businessName + ' — Ready to grow!';
+      seoLabel.textContent = '🚀 ' + data.business_name + ' — Ready to grow!';
+      
+      // Update modal content
+      const subtitle = document.getElementById('analysisSubtitle');
+      const growthValue = document.getElementById('analysisGrowthValue');
+      if (subtitle) subtitle.textContent = 'Projections for ' + data.business_name;
+      if (growthValue) growthValue.textContent = '+' + data.projected_increase_percentage + '%';
 
       setTimeout(function () {
         seoOverlay.classList.add('fade-out');
         ctaBtn.classList.remove('loading');
         setTimeout(function () {
           seoOverlay.classList.remove('active', 'fade-out');
-          openAuthModal('signup');
+          openAuthModal('analysis');
         }, 900);
       }, 700);
-    }, 3200);
+
+    } catch (err) {
+      console.error(err);
+      clearInterval(msgInterval);
+      seoLabel.textContent = 'Network Error. Showing Demo Report...';
+      setTimeout(function () {
+        seoOverlay.classList.remove('active');
+        ctaBtn.classList.remove('loading');
+        openAuthModal('analysis');
+      }, 1500);
+    }
   });
 
   // Allow Enter key on input
@@ -290,6 +312,7 @@
 
   // Screen IDs
   const SCREENS = {
+    analysis:     'authScreenAnalysis',
     choose:       'authScreenChoose',
     login:        'authScreenLogin',
     loginEmail:   'authScreenLoginEmail',
@@ -322,6 +345,8 @@
       showScreen('login');
     } else if (startScreen === 'signup') {
       showScreen('signup');
+    } else if (startScreen === 'analysis') {
+      showScreen('analysis');
     } else {
       showScreen('choose');
     }
@@ -351,6 +376,12 @@
   // ── Choose screen ──
   document.getElementById('chooseLogin').addEventListener('click', function () { showScreen('login'); });
   document.getElementById('chooseSignup').addEventListener('click', function () { showScreen('signup'); });
+
+  // ── Analysis screen ──
+  const claimBtn = document.getElementById('analysisClaimBtn');
+  if (claimBtn) {
+    claimBtn.addEventListener('click', function () { showScreen('signup'); });
+  }
 
   // ── Login flow ──
   document.getElementById('loginBack').addEventListener('click', function () { showScreen('choose'); });

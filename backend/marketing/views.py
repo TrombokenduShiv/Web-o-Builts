@@ -4,12 +4,17 @@ from rest_framework.views import APIView
 import uuid
 import random
 from datetime import datetime, timedelta
+from .models import Lead
 
 class AnalyzeGrowthView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
         business_name = request.data.get('business_name', 'Your Business')
+        email = request.data.get('email', '')
+        
+        # Save the lead
+        Lead.objects.create(business_name=business_name, email=email)
         
         # Generate mock SEO prediction data
         base_traffic = random.randint(500, 2000)
