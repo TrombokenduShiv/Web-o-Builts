@@ -381,23 +381,95 @@
         <img src="images/logo-icon.png" alt="Web-o-Builts" class="auth-logo-img">
       </div>
 
-      <!-- ── SCREEN 0: Analysis Results ── -->
+      <!-- ── SCREEN 0: Analysis Results (Bubble Report) ── -->
       <div class="auth-screen auth-screen-hidden" id="authScreenAnalysis">
-        <div class="auth-success-icon" style="font-size: 3rem; margin-bottom: 0.5rem;">📊</div>
-        <h2 class="auth-title">Analysis Complete</h2>
-        <p class="auth-subtitle" id="analysisSubtitle">Here is your growth projection.</p>
-        
-        <div class="analysis-results" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; text-align: left;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
-                <span style="color: var(--text-secondary); font-size: 0.9rem;">Estimated Traffic Growth:</span>
-                <strong style="color: var(--primary);" id="analysisGrowthValue">+75%</strong>
+        <!-- Bubble burst particles container (inside modal card) -->
+        <div class="bubble-burst-container" id="bubbleBurstContainer" aria-hidden="true"></div>
+
+        <div class="report-bubble-card" id="reportBubbleCard">
+          <div class="report-header">
+            <div class="report-icon-wrap">
+              <span class="report-icon">📊</span>
+              <div class="report-icon-ring"></div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
-                By upgrading your web architecture and applying our SEO-first methodologies, we project significant growth over the next 6 months.
-            </p>
+            <h2 class="auth-title report-title">Analysis Complete</h2>
+            <p class="auth-subtitle report-subtitle" id="analysisSubtitle">Growth projection for your business</p>
+          </div>
+
+          <!-- SEO Score Ring -->
+          <div class="report-score-section">
+            <div class="seo-score-ring" id="seoScoreRing">
+              <svg viewBox="0 0 120 120" class="score-svg">
+                <defs>
+                  <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#7c3aed" />
+                    <stop offset="50%" stop-color="#a855f7" />
+                    <stop offset="100%" stop-color="#ec4899" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="52" class="score-track" />
+                <circle cx="60" cy="60" r="52" class="score-fill" id="scoreCircle" 
+                  stroke="url(#scoreGradient)"
+                  stroke-dasharray="326.73" stroke-dashoffset="326.73" />
+              </svg>
+              <div class="score-value-wrap">
+                <span class="score-value" id="seoScoreValue">0</span>
+                <span class="score-label">SEO Score</span>
+              </div>
+            </div>
+            <div class="score-meta">
+              <div class="score-meta-item">
+                <span class="meta-icon">📈</span>
+                <div>
+                  <strong id="analysisGrowthValue" class="growth-value">+75%</strong>
+                  <span class="meta-desc">Projected Growth</span>
+                </div>
+              </div>
+              <div class="score-meta-item">
+                <span class="meta-icon">🎯</span>
+                <div>
+                  <strong class="growth-value" id="analysisTrafficValue">1,200</strong>
+                  <span class="meta-desc">Monthly Visitors</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini Growth Chart -->
+          <div class="report-chart" id="reportChart">
+            <div class="chart-bar" data-month="" style="--h: 40%"><span class="chart-label"></span></div>
+            <div class="chart-bar" data-month="" style="--h: 55%"><span class="chart-label"></span></div>
+            <div class="chart-bar" data-month="" style="--h: 50%"><span class="chart-label"></span></div>
+            <div class="chart-bar" data-month="" style="--h: 70%"><span class="chart-label"></span></div>
+            <div class="chart-bar" data-month="" style="--h: 82%"><span class="chart-label"></span></div>
+            <div class="chart-bar" data-month="" style="--h: 100%"><span class="chart-label"></span></div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="report-recs" id="reportRecs">
+            <div class="rec-pill" id="rec1">
+              <span class="rec-dot high"></span>
+              <span class="rec-text">Loading...</span>
+            </div>
+            <div class="rec-pill" id="rec2">
+              <span class="rec-dot medium"></span>
+              <span class="rec-text">Loading...</span>
+            </div>
+            <div class="rec-pill" id="rec3">
+              <span class="rec-dot medium"></span>
+              <span class="rec-text">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <p class="report-summary" id="reportSummary">
+            By upgrading your web architecture and applying our SEO-first methodologies, we project significant growth over the next 6 months.
+          </p>
         </div>
 
-        <button class="btn-primary auth-submit" id="analysisClaimBtn">Claim Your Growth Plan ✦</button>
+        <button class="btn-primary auth-submit report-claim-btn" id="analysisClaimBtn">
+          🚀 Claim Your Growth Plan
+        </button>
       </div>
 
       <!-- ── SCREEN 1: Choose Login or Sign Up ── -->
