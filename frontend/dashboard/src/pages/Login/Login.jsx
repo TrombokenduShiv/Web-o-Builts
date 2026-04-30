@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { login } from '../../services/api';
+import { login, generateOtp, loginWithOtp, googleTokenLogin } from '../../services/api';
 import './Login.css';
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
 export default function Login() {
   const { loginUser } = useAuth();
@@ -19,31 +21,80 @@ export default function Login() {
   const [passFocused, setPassFocused] = useState(false);
   const [otpFocused, setOtpFocused] = useState(false);
 
+  // ── Google Identity Services ──
+  const handleGoogleCredential = useCallback(async (response) => {
+    setError('');
+    setLoading(true);
+    try {
+      const result = await googleTokenLogin(response.credential);
+      loginUser(result.user);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [loginUser, navigate]);
+
+  useEffect(() => {
+    if (!GOOGLE_CLIENT_ID) return;
+
+    const initGoogle = () => {
+      if (window.google?.accounts?.id) {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleCredential,
+          auto_select: false,
+        });
+        // Render the custom button
+        const btnContainer = document.getElementById('googleSignInBtn');
+        if (btnContainer) {
+          window.google.accounts.id.renderButton(btnContainer, {
+            type: 'standard',
+            theme: 'filled_black',
+            size: 'large',
+            width: '100%',
+            text: 'continue_with',
+            logo_alignment: 'center',
+          });
+        }
+      }
+    };
+
+    // Load the Google Identity Services script if not already loaded
+    if (!document.getElementById('google-gsi-script')) {
+      const script = document.createElement('script');
+      script.id = 'google-gsi-script';
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = initGoogle;
+      document.head.appendChild(script);
+    } else {
+      initGoogle();
+    }
+  }, [handleGoogleCredential]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    
+
     try {
       if (authMode === 'password') {
         if (!email || !password) throw new Error('Please fill in all fields.');
-        const { user } = await login(email, password);
-        loginUser(user);
+        const result = await login(email, password);
+        loginUser(result.user);
         navigate('/dashboard');
       } else if (authMode === 'otp') {
         if (!otpSent) {
           if (!email) throw new Error('Please enter your email.');
-          // Simulate OTP generation
-          await new Promise(r => setTimeout(r, 800));
+          await generateOtp(email);
           setOtpSent(true);
         } else {
           if (!otp) throw new Error('Please enter the OTP.');
-          // Simulate OTP verification
-          await new Promise(r => setTimeout(r, 800));
-          if (otp !== '123456') throw new Error('Invalid OTP. Use 123456');
-          // Mock login success
-          const { user } = await login(email, 'password');
-          loginUser(user);
+          const result = await loginWithOtp(email, otp);
+          loginUser(result.user);
           navigate('/dashboard');
         }
       }
@@ -52,11 +103,6 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleGoogleLogin = () => {
-    // Redirect to backend Google OAuth URL
-    window.location.href = 'http://localhost:8000/api/accounts/google/login/';
   };
 
   return (
@@ -71,12 +117,6 @@ export default function Login() {
 
       {/* Grid overlay */}
       <div className="login-grid" aria-hidden="true" />
-
-      {/* Demo banner */}
-      <div className="login-demo-banner">
-        <span>🔑</span>
-        Demo Mode — use any email &amp; password: <strong>password</strong>
-      </div>
 
       {/* Card */}
       <motion.div
@@ -97,11 +137,11 @@ export default function Login() {
         <p className="login-subtitle">Sign in to manage your project.</p>
 
         <div className="login-tabs">
-          <button 
+          <button
             className={`login-tab ${authMode === 'password' ? 'active' : ''}`}
             onClick={() => { setAuthMode('password'); setOtpSent(false); setError(''); }}
           >Password</button>
-          <button 
+          <button
             className={`login-tab ${authMode === 'otp' ? 'active' : ''}`}
             onClick={() => { setAuthMode('otp'); setError(''); }}
           >OTP Login</button>
@@ -152,9 +192,10 @@ export default function Login() {
                 onFocus={() => setOtpFocused(true)}
                 onBlur={() => setOtpFocused(false)}
                 autoComplete="one-time-code"
-                placeholder="123456"
+                placeholder="Enter 6-digit code from your email"
                 maxLength={6}
               />
+              <p className="login-otp-hint">Check your email for the verification code.</p>
             </div>
           )}
 
@@ -190,10 +231,19 @@ export default function Login() {
 
         <div className="login-divider"><span>OR</span></div>
 
-        <button type="button" className="google-login-btn" onClick={handleGoogleLogin}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
-          Continue with Google
-        </button>
+        {/* Google Sign-In */}
+        {GOOGLE_CLIENT_ID ? (
+          <div id="googleSignInBtn" className="google-signin-container" />
+        ) : (
+          <button type="button" className="google-login-btn" disabled>
+            <img src="/google-logo.png" alt="Google" />
+            Google Sign-In (not configured)
+          </button>
+        )}
+
+        <p className="login-register-link">
+          Don't have an account? <Link to="/register">Sign Up</Link>
+        </p>
 
         <p className="login-footer-text">
           Need help? <a href="mailto:hello@web-o-builts.com">Contact us</a>

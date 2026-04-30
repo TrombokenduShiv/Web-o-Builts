@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { getMe, logout as apiLogout } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -7,13 +8,31 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => localStorage.getItem('wcs-dash-theme') || 'dark');
 
-  // Restore session from localStorage on mount
+  // Restore session: validate stored token by fetching profile
   useEffect(() => {
-    const saved = localStorage.getItem('wcs-dash-user');
-    if (saved) {
-      try { setUser(JSON.parse(saved)); } catch {}
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      getMe()
+        .then(profile => {
+          setUser(profile);
+          localStorage.setItem('wcs-dash-user', JSON.stringify(profile));
+        })
+        .catch(() => {
+          // Token invalid/expired — clear everything
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('wcs-dash-user');
+          setUser(null);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      // No token — check if we have cached user data (shouldn't happen, but fallback)
+      const saved = localStorage.getItem('wcs-dash-user');
+      if (saved) {
+        try { setUser(JSON.parse(saved)); } catch {}
+      }
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   // Apply theme to <html>
@@ -29,7 +48,7 @@ export function AuthProvider({ children }) {
 
   const logoutUser = useCallback(() => {
     setUser(null);
-    localStorage.removeItem('wcs-dash-user');
+    apiLogout();
   }, []);
 
   const toggleTheme = useCallback(() => {

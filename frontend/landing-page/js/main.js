@@ -6,7 +6,9 @@
   'use strict';
 
   /* ── API Configuration ── */
-  var API_BASE = 'http://localhost:8000';
+  var API_BASE = (window.__CONFIG && window.__CONFIG.API_BASE) || 'http://localhost:8000';
+  var DASHBOARD_URL = (window.__CONFIG && window.__CONFIG.DASHBOARD_URL) || 'http://localhost:5173';
+  var GOOGLE_CLIENT_ID = (window.__CONFIG && window.__CONFIG.GOOGLE_CLIENT_ID) || '';
 
   /* ────────────────────────────────────────────
      1. THEME TOGGLE (with liquid wave)
@@ -596,9 +598,31 @@
   document.getElementById('loginEmailBack').addEventListener('click', function () { showScreen('login'); });
   document.getElementById('loginPhoneBack').addEventListener('click', function () { showScreen('login'); });
 
-  // Login form submissions → redirect to dashboard
-  document.getElementById('loginEmailForm').addEventListener('submit', function () {
-    window.location.href = 'http://localhost:5173';
+  // Login form submissions → call real API then redirect
+  document.getElementById('loginEmailForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = document.getElementById('loginEmail').value;
+    var pass = document.getElementById('loginPassword').value;
+    if (!email || !pass) return;
+    var btn = document.getElementById('loginEmailSubmit');
+    btn.textContent = 'Signing in...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(API_BASE + '/api/auth/login/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: pass })
+      });
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Invalid credentials');
+      localStorage.setItem('access_token', data.access);
+      localStorage.setItem('refresh_token', data.refresh);
+      window.location.href = DASHBOARD_URL + '/dashboard';
+    } catch (err) {
+      alert(err.message);
+      btn.textContent = 'Login →';
+      btn.disabled = false;
+    }
   });
   document.getElementById('loginPhoneForm').addEventListener('submit', function () {
     showScreen('otp');
@@ -613,14 +637,15 @@
   document.getElementById('signupPhoneBack').addEventListener('click', function () { showScreen('signup'); });
 
   // Signup phone form → go to OTP screen
-  document.getElementById('signupPhoneForm').addEventListener('submit', function () {
+  document.getElementById('signupPhoneForm').addEventListener('submit', function (e) {
+    e.preventDefault();
     startOtpFlow();
     showScreen('otp');
   });
 
   // Success screen close → go to dashboard
   document.getElementById('authSuccessClose').addEventListener('click', function () {
-    window.location.href = 'http://localhost:5173';
+    window.location.href = DASHBOARD_URL + '/dashboard';
   });
 
   /* ────────────────────────────────────────────
@@ -703,9 +728,36 @@
     showScreen('success');
   });
 
-  // Signup email → success screen
-  document.getElementById('signupEmailForm').addEventListener('submit', function () {
-    showScreen('success');
+  // Signup email → call real API
+  document.getElementById('signupEmailForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var name = document.getElementById('signupName').value;
+    var email = document.getElementById('signupEmail').value;
+    var pass = document.getElementById('signupPassword').value;
+    if (!email || !pass) return;
+    var btn = document.getElementById('signupEmailSubmit');
+    btn.textContent = 'Creating...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(API_BASE + '/api/auth/register/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: pass, business_name: name || '' })
+      });
+      var data = await res.json();
+      if (!res.ok) {
+        var key = Object.keys(data)[0];
+        throw new Error(Array.isArray(data[key]) ? data[key][0] : (data[key] || 'Registration failed'));
+      }
+      localStorage.setItem('access_token', data.access);
+      localStorage.setItem('refresh_token', data.refresh);
+      localStorage.setItem('wcs-dash-user', JSON.stringify(data.user));
+      showScreen('success');
+    } catch (err) {
+      alert(err.message);
+      btn.textContent = 'Create Account →';
+      btn.disabled = false;
+    }
   });
 
 })();

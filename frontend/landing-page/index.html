@@ -10,6 +10,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Production Configuration: Update these values for deployment -->
+  <script>
+    window.__CONFIG = {
+      API_BASE: 'http://localhost:8000',
+      DASHBOARD_URL: 'http://localhost:5173',
+      GOOGLE_CLIENT_ID: ''
+    };
+  </script>
 </head>
 
 <body>
@@ -637,6 +646,7 @@
     </div>
   </div>
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/main.js"></script>
 </body>
 
