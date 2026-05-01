@@ -12,12 +12,24 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (token) {
+      // Set a timeout fallback so we never show an infinite spinner
+      const timeoutId = setTimeout(() => {
+        console.warn('Profile fetch timed out — clearing session');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('wcs-dash-user');
+        setUser(null);
+        setLoading(false);
+      }, 10000); // 10 second timeout
+
       getMe()
         .then(profile => {
+          clearTimeout(timeoutId);
           setUser(profile);
           localStorage.setItem('wcs-dash-user', JSON.stringify(profile));
         })
         .catch(() => {
+          clearTimeout(timeoutId);
           // Token invalid/expired — clear everything
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
@@ -55,8 +67,11 @@ export function AuthProvider({ children }) {
     setTheme(t => t === 'dark' ? 'light' : 'dark');
   }, []);
 
+  // Helper: check if user needs onboarding
+  const needsOnboarding = user && (!user.business_name || user.is_new);
+
   return (
-    <AuthContext.Provider value={{ user, loading, theme, loginUser, logoutUser, toggleTheme }}>
+    <AuthContext.Provider value={{ user, loading, theme, loginUser, logoutUser, toggleTheme, needsOnboarding }}>
       {children}
     </AuthContext.Provider>
   );

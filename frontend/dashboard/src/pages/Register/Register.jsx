@@ -25,7 +25,12 @@ export default function Register() {
     try {
       const result = await googleTokenLogin(response.credential);
       loginUser(result.user);
-      navigate('/dashboard');
+      // New Google users need onboarding
+      if (result.user.is_new || !result.user.business_name) {
+        navigate('/onboarding');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -66,7 +71,7 @@ export default function Register() {
       script.onload = initGoogle;
       document.head.appendChild(script);
     } else {
-      initGoogle();
+      setTimeout(initGoogle, 300);
     }
   }, [handleGoogleCredential]);
 
@@ -92,7 +97,12 @@ export default function Register() {
       });
 
       loginUser(result.user);
-      navigate('/dashboard');
+      // If they filled business name in signup, go to dashboard, else onboarding
+      if (businessName) {
+        navigate('/dashboard');
+      } else {
+        navigate('/onboarding');
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -133,7 +143,6 @@ export default function Register() {
           <div id="googleSignUpBtn" className="google-signup-container" />
         ) : (
           <button type="button" className="google-signup-btn" disabled>
-            <img src="/google-logo.png" alt="Google" />
             Google Sign-Up (not configured)
           </button>
         )}

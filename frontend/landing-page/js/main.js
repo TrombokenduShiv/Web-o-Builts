@@ -1,5 +1,6 @@
 /* ============================================================
-   WEB-O-BUILTS — MAIN JAVASCRIPT
+   WEB-O-BUILTS — MAIN JAVASCRIPT (Simplified)
+   Auth modal removed — all auth redirects to Dashboard
    ============================================================ */
 
 (function () {
@@ -8,7 +9,6 @@
   /* ── API Configuration ── */
   var API_BASE = (window.__CONFIG && window.__CONFIG.API_BASE) || 'http://localhost:8000';
   var DASHBOARD_URL = (window.__CONFIG && window.__CONFIG.DASHBOARD_URL) || 'http://localhost:5173';
-  var GOOGLE_CLIENT_ID = (window.__CONFIG && window.__CONFIG.GOOGLE_CLIENT_ID) || '';
 
   /* ────────────────────────────────────────────
      1. THEME TOGGLE (with liquid wave)
@@ -17,7 +17,6 @@
   const themeToggle = document.getElementById('themeToggle');
   const themeWaveCircle = document.getElementById('themeWaveCircle');
 
-  // Load saved theme — default is DARK
   const savedTheme = localStorage.getItem('wob-theme') || 'dark';
   htmlEl.setAttribute('data-theme', savedTheme);
   themeToggle.setAttribute('aria-checked', savedTheme === 'dark' ? 'true' : 'false');
@@ -26,7 +25,6 @@
     const isDark = htmlEl.getAttribute('data-theme') === 'dark';
     const newTheme = isDark ? 'light' : 'dark';
 
-    // Trigger liquid wave
     themeWaveCircle.classList.add('expand');
 
     setTimeout(function () {
@@ -54,7 +52,44 @@
   }, { passive: true });
 
   /* ────────────────────────────────────────────
-     3. CTA — ANALYZE MY GROWTH
+     3. CLIENT PORTAL BUTTON → Redirect to Dashboard
+  ──────────────────────────────────────────── */
+  var portalBtn = document.getElementById('portalBtn');
+  if (portalBtn) {
+    portalBtn.addEventListener('click', function () {
+      window.location.href = DASHBOARD_URL + '/login';
+    });
+  }
+
+  /* ────────────────────────────────────────────
+     3a. FOOTER REDIRECT BUTTONS
+  ──────────────────────────────────────────── */
+  var footerGetStarted = document.getElementById('footerGetStarted');
+  if (footerGetStarted) {
+    footerGetStarted.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = DASHBOARD_URL + '/register';
+    });
+  }
+
+  var footerClientPortal = document.getElementById('footerClientPortal');
+  if (footerClientPortal) {
+    footerClientPortal.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = DASHBOARD_URL + '/login';
+    });
+  }
+
+  var footerScheduleCall = document.getElementById('footerScheduleCall');
+  if (footerScheduleCall) {
+    footerScheduleCall.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = DASHBOARD_URL + '/register';
+    });
+  }
+
+  /* ────────────────────────────────────────────
+     4. CTA — ANALYZE MY GROWTH
   ──────────────────────────────────────────── */
   const ctaBtn = document.getElementById('ctaBtn');
   const seoOverlay = document.getElementById('seoOverlay');
@@ -62,13 +97,12 @@
   const businessInput = document.getElementById('businessNameInput');
 
   /* ────────────────────────────────────────────
-     3b. MIC BUTTON — Voice Input (Web Speech API)
+     4b. MIC BUTTON — Voice Input (Web Speech API)
   ──────────────────────────────────────────── */
   const micBtn = document.getElementById('micBtn');
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    // Browser doesn't support it — dim the button
     micBtn.classList.add('unsupported');
     micBtn.title = 'Voice input not supported in this browser';
   } else {
@@ -81,11 +115,16 @@
     let isRecording = false;
 
     micBtn.addEventListener('click', function (e) {
+      e.preventDefault();
       e.stopPropagation();
       if (isRecording) {
         recognition.stop();
       } else {
-        recognition.start();
+        try {
+          recognition.start();
+        } catch (err) {
+          console.warn('Mic start error:', err);
+        }
       }
     });
 
@@ -134,7 +173,7 @@
   ];
 
   /* ────────────────────────────────────────────
-     3c. BUBBLE BURST SYSTEM
+     4c. BUBBLE BURST SYSTEM
   ──────────────────────────────────────────── */
   var bubbleColors = [
     'rgba(124, 58, 237, 0.55)',
@@ -174,7 +213,6 @@
     }
   }
 
-  /* Also spawn bubbles on the modal backdrop */
   function spawnBackdropBubbles() {
     var existing = document.getElementById('backdropBubbles');
     if (existing) existing.remove();
@@ -209,27 +247,22 @@
       backdrop.appendChild(bubble);
     }
 
-    // Auto-cleanup after 8 seconds
     setTimeout(function () {
       if (backdrop.parentNode) backdrop.remove();
     }, 8000);
   }
 
   /* ────────────────────────────────────────────
-     3d. POPULATE REPORT DATA
+     4d. POPULATE REPORT DATA
   ──────────────────────────────────────────── */
   function populateReport(data) {
-    // Title & subtitle
     var subtitle = document.getElementById('analysisSubtitle');
     if (subtitle) subtitle.textContent = 'Growth projection for ' + data.business_name;
 
-    // SEO Score Ring
     var scoreEl = document.getElementById('seoScoreValue');
     var scoreCircle = document.getElementById('scoreCircle');
     if (scoreEl && data.seo_score !== undefined) {
-      // Animate the number counting up
       animateCounter(scoreEl, 0, data.seo_score, 1200);
-      // Animate the SVG ring
       if (scoreCircle) {
         var circumference = 326.73;
         var offset = circumference - (data.seo_score / 100) * circumference;
@@ -239,7 +272,6 @@
       }
     }
 
-    // Growth & Traffic
     var growthEl = document.getElementById('analysisGrowthValue');
     var trafficEl = document.getElementById('analysisTrafficValue');
     if (growthEl) growthEl.textContent = '+' + data.projected_increase_percentage + '%';
@@ -248,7 +280,6 @@
       trafficEl.textContent = lastTraffic.toLocaleString();
     }
 
-    // Mini chart
     if (data.predicted_growth) {
       var bars = document.querySelectorAll('#reportChart .chart-bar');
       var maxVisitors = Math.max.apply(null, data.predicted_growth.map(function (g) { return g.visitors; }));
@@ -257,12 +288,11 @@
           var pct = Math.round((item.visitors / maxVisitors) * 100);
           bars[idx].style.setProperty('--h', pct + '%');
           var label = bars[idx].querySelector('.chart-label');
-          if (label) label.textContent = item.month.split(' ')[0]; // e.g. "Apr"
+          if (label) label.textContent = item.month.split(' ')[0];
         }
       });
     }
 
-    // Recommendations
     if (data.recommendations) {
       data.recommendations.forEach(function (rec, idx) {
         var pill = document.getElementById('rec' + (idx + 1));
@@ -277,7 +307,6 @@
       });
     }
 
-    // Summary
     var summaryEl = document.getElementById('reportSummary');
     if (summaryEl && data.summary) {
       summaryEl.textContent = data.summary;
@@ -289,7 +318,7 @@
     function step(timestamp) {
       if (!startTime) startTime = timestamp;
       var progress = Math.min((timestamp - startTime) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3); // ease out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
       el.textContent = Math.round(start + (end - start) * eased);
       if (progress < 1) {
         requestAnimationFrame(step);
@@ -299,7 +328,7 @@
   }
 
   /* ────────────────────────────────────────────
-     3e. GENERATE FALLBACK DATA (when API is offline)
+     4e. GENERATE FALLBACK DATA
   ──────────────────────────────────────────── */
   function generateFallbackData(businessName) {
     var seoScore = Math.floor(Math.random() * 35) + 28;
@@ -332,12 +361,24 @@
   }
 
   /* ────────────────────────────────────────────
-     3f. CTA CLICK HANDLER
+     4f. CTA CLICK HANDLER
   ──────────────────────────────────────────── */
   ctaBtn.addEventListener('click', async function () {
     if (ctaBtn.classList.contains('loading')) return;
 
-    const businessName = businessInput.value.trim() || 'Your Business';
+    const businessName = businessInput.value.trim();
+
+    // Require business name input
+    if (!businessName) {
+      businessInput.focus();
+      businessInput.placeholder = '⚠ Please enter your business name first...';
+      businessInput.classList.add('input-shake');
+      setTimeout(function () {
+        businessInput.classList.remove('input-shake');
+        businessInput.placeholder = 'Enter your business name...';
+      }, 2000);
+      return;
+    }
 
     // Button → loading state
     ctaBtn.classList.add('loading');
@@ -373,7 +414,6 @@
     clearInterval(msgInterval);
     seoLabel.textContent = '🚀 ' + reportData.business_name + ' — Ready to grow!';
 
-    // Populate the report BEFORE showing the modal
     populateReport(reportData);
 
     setTimeout(function () {
@@ -382,24 +422,31 @@
       setTimeout(function () {
         seoOverlay.classList.remove('active', 'fade-out');
 
-        // Spawn bubble bursts
         var container = document.getElementById('bubbleBurstContainer');
         spawnBubbleBurst(container, 25);
         spawnBackdropBubbles();
 
-        // Open the analysis modal
-        openAuthModal('analysis');
+        // Open analysis modal
+        openAnalysisModal();
       }, 900);
     }, 700);
   });
 
   // Allow Enter key on input
   businessInput.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') ctaBtn.click();
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      ctaBtn.click();
+    }
+  });
+
+  // Ensure input is interactable
+  businessInput.addEventListener('click', function () {
+    this.focus();
   });
 
   /* ────────────────────────────────────────────
-     4. SCROLL REVEAL
+     5. SCROLL REVEAL
   ──────────────────────────────────────────── */
   const revealEls = document.querySelectorAll('.reveal');
 
@@ -419,17 +466,11 @@
     revealObserver.observe(el);
   });
 
-  // Fallback: reveal all after 4s in case observer doesn't fire
   setTimeout(function () {
     revealEls.forEach(function (el) {
       el.classList.add('visible');
     });
   }, 4000);
-
-  /* ────────────────────────────────────────────
-     5. HERO INPUT — GRADIENT BORDER ANIMATION
-  ──────────────────────────────────────────── */
-  // Already handled via CSS :focus-within — nothing extra needed.
 
   /* ────────────────────────────────────────────
      6. CARD HOVER — BUBBLE SPRING CLICK
@@ -449,12 +490,12 @@
   });
 
   /* ────────────────────────────────────────────
-     7. PRO PACKAGE CTA — Open signup modal
+     7. PRO PACKAGE CTA — Redirect to Dashboard Register
   ──────────────────────────────────────────── */
   const proCTA = document.getElementById('proCTA');
   if (proCTA) {
     proCTA.addEventListener('click', function () {
-      openAuthModal('signup');
+      window.location.href = DASHBOARD_URL + '/register';
     });
   }
 
@@ -463,17 +504,19 @@
   ──────────────────────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
-      const target = document.querySelector(this.getAttribute('href'));
+      const href = this.getAttribute('href');
+      if (href === '#') return; // Skip # only links
+      const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
-      const offset = 80; // navbar height
+      const offset = 80;
       const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top: top, behavior: 'smooth' });
     });
   });
 
   /* ────────────────────────────────────────────
-     9. PARALLAX — BLOBS (subtle mouse tracking)
+     9. PARALLAX — BLOBS
   ──────────────────────────────────────────── */
   const blobs = document.querySelectorAll('.blob');
 
@@ -492,7 +535,7 @@
   }, { passive: true });
 
   /* ────────────────────────────────────────────
-     10. REVEAL HERO IMMEDIATELY (above fold)
+     10. REVEAL HERO IMMEDIATELY
   ──────────────────────────────────────────── */
   function revealHeroContent() {
     const heroEls = document.querySelectorAll('.hero-content .reveal');
@@ -510,254 +553,56 @@
   }
 
   /* ────────────────────────────────────────────
-     11. AUTH MODAL SYSTEM
+     11. ANALYSIS MODAL (simplified — no auth screens)
   ──────────────────────────────────────────── */
   const authModal = document.getElementById('authModal');
   const authClose = document.getElementById('authClose');
 
-  // Screen IDs
-  const SCREENS = {
-    analysis:     'authScreenAnalysis',
-    choose:       'authScreenChoose',
-    login:        'authScreenLogin',
-    loginEmail:   'authScreenLoginEmail',
-    loginPhone:   'authScreenLoginPhone',
-    signup:       'authScreenSignup',
-    signupEmail:  'authScreenSignupEmail',
-    signupPhone:  'authScreenSignupPhone',
-    otp:          'authScreenOTP',
-    success:      'authScreenSuccess',
-  };
-
-  function showScreen(screenKey) {
-    Object.values(SCREENS).forEach(function (id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('auth-screen-hidden');
-    });
-    const target = document.getElementById(SCREENS[screenKey]);
-    if (target) {
-      target.classList.remove('auth-screen-hidden');
-      target.classList.add('auth-screen-enter');
-      setTimeout(function () { target.classList.remove('auth-screen-enter'); }, 400);
-    }
-  }
-
-  // Expose globally so inline onclick handlers work
-  window.openAuthModal = function (startScreen) {
+  function openAnalysisModal() {
     authModal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    if (startScreen === 'login') {
-      showScreen('login');
-    } else if (startScreen === 'signup') {
-      showScreen('signup');
-    } else if (startScreen === 'analysis') {
-      showScreen('analysis');
+  }
+
+  function closeAnalysisModal() {
+    authModal.classList.remove('active');
+    document.body.style.overflow = '';
+    var backdrop = document.getElementById('backdropBubbles');
+    if (backdrop) backdrop.remove();
+  }
+
+  // Expose globally for compatibility
+  window.openAuthModal = function (mode) {
+    if (mode === 'analysis') {
+      openAnalysisModal();
     } else {
-      showScreen('choose');
+      // All other auth actions redirect to dashboard
+      window.location.href = DASHBOARD_URL + '/login';
     }
   };
 
-  window.closeAuthModal = function () {
-    authModal.classList.remove('active');
-    document.body.style.overflow = '';
-    // Remove backdrop bubbles
-    var backdrop = document.getElementById('backdropBubbles');
-    if (backdrop) backdrop.remove();
-    setTimeout(function () { showScreen('choose'); }, 400);
-  };
+  window.closeAuthModal = closeAnalysisModal;
 
   // Close button
-  authClose.addEventListener('click', window.closeAuthModal);
+  authClose.addEventListener('click', closeAnalysisModal);
 
-  // Click outside modal card
+  // Click outside
   authModal.addEventListener('click', function (e) {
-    if (e.target === authModal) window.closeAuthModal();
+    if (e.target === authModal) closeAnalysisModal();
   });
 
   // Escape key
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && authModal.classList.contains('active')) {
-      window.closeAuthModal();
+      closeAnalysisModal();
     }
   });
 
-  // ── Choose screen ──
-  document.getElementById('chooseLogin').addEventListener('click', function () { showScreen('login'); });
-  document.getElementById('chooseSignup').addEventListener('click', function () { showScreen('signup'); });
-
-  // ── Analysis screen ──
-  const claimBtn = document.getElementById('analysisClaimBtn');
+  // Claim button → redirect to dashboard register
+  var claimBtn = document.getElementById('analysisClaimBtn');
   if (claimBtn) {
-    claimBtn.addEventListener('click', function () { showScreen('signup'); });
-  }
-
-  // ── Login flow ──
-  document.getElementById('loginBack').addEventListener('click', function () { showScreen('choose'); });
-  document.getElementById('loginWithEmail').addEventListener('click', function () { showScreen('loginEmail'); });
-  document.getElementById('loginWithPhone').addEventListener('click', function () { showScreen('loginPhone'); });
-  document.getElementById('loginEmailBack').addEventListener('click', function () { showScreen('login'); });
-  document.getElementById('loginPhoneBack').addEventListener('click', function () { showScreen('login'); });
-
-  // Login form submissions → call real API then redirect
-  document.getElementById('loginEmailForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var email = document.getElementById('loginEmail').value;
-    var pass = document.getElementById('loginPassword').value;
-    if (!email || !pass) return;
-    var btn = document.getElementById('loginEmailSubmit');
-    btn.textContent = 'Signing in...';
-    btn.disabled = true;
-    try {
-      var res = await fetch(API_BASE + '/api/auth/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, password: pass })
-      });
-      var data = await res.json();
-      if (!res.ok) throw new Error(data.detail || 'Invalid credentials');
-      localStorage.setItem('access_token', data.access);
-      localStorage.setItem('refresh_token', data.refresh);
-      window.location.href = DASHBOARD_URL + '/dashboard';
-    } catch (err) {
-      alert(err.message);
-      btn.textContent = 'Login →';
-      btn.disabled = false;
-    }
-  });
-  document.getElementById('loginPhoneForm').addEventListener('submit', function () {
-    showScreen('otp');
-    startOtpFlow();
-  });
-
-  // ── Sign Up flow ──
-  document.getElementById('signupBack').addEventListener('click', function () { showScreen('choose'); });
-  document.getElementById('signupWithEmail').addEventListener('click', function () { showScreen('signupEmail'); });
-  document.getElementById('signupWithPhone').addEventListener('click', function () { showScreen('signupPhone'); });
-  document.getElementById('signupEmailBack').addEventListener('click', function () { showScreen('signup'); });
-  document.getElementById('signupPhoneBack').addEventListener('click', function () { showScreen('signup'); });
-
-  // Signup phone form → go to OTP screen
-  document.getElementById('signupPhoneForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    startOtpFlow();
-    showScreen('otp');
-  });
-
-  // Success screen close → go to dashboard
-  document.getElementById('authSuccessClose').addEventListener('click', function () {
-    window.location.href = DASHBOARD_URL + '/dashboard';
-  });
-
-  /* ────────────────────────────────────────────
-     12. OTP SCREEN LOGIC
-  ──────────────────────────────────────────── */
-  var otpTimerInterval = null;
-
-  function startOtpTimer() {
-    var timerCount = document.getElementById('otpTimerCount');
-    var timerLabel = document.getElementById('otpTimerLabel');
-    var resendBtn  = document.getElementById('otpResendBtn');
-
-    // Reset display
-    var seconds = 60;
-    timerCount.textContent = seconds;
-    timerLabel.style.display = 'inline';
-    resendBtn.style.display  = 'none';
-
-    // Clear any existing interval
-    if (otpTimerInterval) clearInterval(otpTimerInterval);
-
-    otpTimerInterval = setInterval(function () {
-      seconds--;
-      timerCount.textContent = seconds;
-      if (seconds <= 0) {
-        clearInterval(otpTimerInterval);
-        otpTimerInterval = null;
-        timerLabel.style.display = 'none';
-        resendBtn.style.display  = 'inline-flex';
-      }
-    }, 1000);
-  }
-
-  function resetOtpBoxes() {
-    ['otp1','otp2','otp3','otp4'].forEach(function (id) {
-      document.getElementById(id).value = '';
+    claimBtn.addEventListener('click', function () {
+      window.location.href = DASHBOARD_URL + '/register';
     });
-    document.getElementById('otp1').focus();
   }
-
-  function startOtpFlow() {
-    resetOtpBoxes();
-    startOtpTimer();
-  }
-
-  // Auto-advance & backspace handling between OTP boxes
-  var otpInputs = document.querySelectorAll('.otp-input');
-  otpInputs.forEach(function (input, idx) {
-    input.addEventListener('input', function () {
-      // Allow only digits
-      this.value = this.value.replace(/[^0-9]/g, '');
-      if (this.value.length === 1 && idx < otpInputs.length - 1) {
-        otpInputs[idx + 1].focus();
-      }
-    });
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Backspace' && !this.value && idx > 0) {
-        otpInputs[idx - 1].focus();
-      }
-    });
-    // Select all text on focus
-    input.addEventListener('focus', function () { this.select(); });
-  });
-
-  // OTP back button — stop timer, go back to signup phone
-  document.getElementById('otpBack').addEventListener('click', function () {
-    if (otpTimerInterval) { clearInterval(otpTimerInterval); otpTimerInterval = null; }
-    showScreen('signupPhone');
-  });
-
-  // Resend button — restart timer
-  document.getElementById('otpResendBtn').addEventListener('click', function () {
-    resetOtpBoxes();
-    startOtpTimer();
-  });
-
-  // Verify button — go to success then redirect
-  document.getElementById('otpVerifyBtn').addEventListener('click', function () {
-    if (otpTimerInterval) { clearInterval(otpTimerInterval); otpTimerInterval = null; }
-    showScreen('success');
-  });
-
-  // Signup email → call real API
-  document.getElementById('signupEmailForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var name = document.getElementById('signupName').value;
-    var email = document.getElementById('signupEmail').value;
-    var pass = document.getElementById('signupPassword').value;
-    if (!email || !pass) return;
-    var btn = document.getElementById('signupEmailSubmit');
-    btn.textContent = 'Creating...';
-    btn.disabled = true;
-    try {
-      var res = await fetch(API_BASE + '/api/auth/register/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, password: pass, business_name: name || '' })
-      });
-      var data = await res.json();
-      if (!res.ok) {
-        var key = Object.keys(data)[0];
-        throw new Error(Array.isArray(data[key]) ? data[key][0] : (data[key] || 'Registration failed'));
-      }
-      localStorage.setItem('access_token', data.access);
-      localStorage.setItem('refresh_token', data.refresh);
-      localStorage.setItem('wcs-dash-user', JSON.stringify(data.user));
-      showScreen('success');
-    } catch (err) {
-      alert(err.message);
-      btn.textContent = 'Create Account →';
-      btn.disabled = false;
-    }
-  });
 
 })();

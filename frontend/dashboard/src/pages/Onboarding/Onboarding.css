@@ -1,4 +1,4 @@
-.register-page {
+.onboarding-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,36 +11,30 @@
 }
 
 /* ── Blobs ── */
-.register-blobs { position: absolute; inset: 0; pointer-events: none; }
+.onboarding-blobs { position: absolute; inset: 0; pointer-events: none; }
 
-.register-blob {
+.onboarding-blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
   opacity: 0.5;
 }
 
-.rb-1 {
+.ob-1 {
   width: 500px; height: 500px;
-  top: -120px; right: -100px;
+  top: -120px; left: -100px;
   background: radial-gradient(circle, #7c3aed, #4a148c, #311b92);
   animation: blobFloat1 16s ease-in-out infinite;
 }
-.rb-2 {
+.ob-2 {
   width: 400px; height: 400px;
-  bottom: -80px; left: -80px;
+  bottom: -80px; right: -80px;
   background: radial-gradient(circle, #e91e8c, #880e4f, #6a1b9a);
   animation: blobFloat2 18s ease-in-out infinite;
 }
-.rb-3 {
-  width: 280px; height: 280px;
-  top: 40%; left: 60%;
-  background: radial-gradient(circle, #a855f7, #ec4899);
-  animation: blobFloat3 13s ease-in-out infinite;
-}
 
 /* ── Grid ── */
-.register-grid {
+.onboarding-grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -51,11 +45,11 @@
 }
 
 /* ── Card ── */
-.register-card {
+.onboarding-card {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.10) 0%,
     rgba(255, 255, 255, 0.05) 50%,
@@ -66,238 +60,34 @@
   border-top-color: rgba(255, 255, 255, 0.22);
   border-left-color: rgba(255, 255, 255, 0.17);
   border-radius: var(--radius-xl);
-  padding: 40px 36px 36px;
+  padding: 44px 40px 40px;
   box-shadow:
     0 40px 100px rgba(0, 0, 0, 0.55),
     0 8px 32px rgba(124, 58, 237, 0.18),
     0 1px 0 rgba(255, 255, 255, 0.10) inset;
 }
 
-.register-card-gloss {
+.onboarding-card-gloss {
   position: absolute;
-  top: 0;
-  left: 12%;
-  width: 60%;
-  height: 1px;
+  top: 0; left: 12%; width: 60%; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
   pointer-events: none;
 }
 
 /* ── Logo ── */
-.register-logo {
+.onboarding-logo {
   display: flex;
   justify-content: center;
   margin-bottom: 24px;
 }
 
-.register-logo-img {
-  height: 48px;
+.onboarding-logo-img {
+  height: 52px;
   width: auto;
   object-fit: contain;
+  animation: logoGlow 3s ease-in-out infinite;
 }
 
-/* ── Titles ── */
-.register-title {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #f0eeff;
-  margin-bottom: 6px;
-  letter-spacing: -0.02em;
-  text-align: center;
-}
-
-.register-subtitle {
-  font-size: 0.88rem;
-  color: rgba(196, 184, 224, 0.75);
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-/* ── Divider ── */
-.register-divider {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  color: rgba(196, 184, 224, 0.5);
-  font-size: 0.78rem;
-}
-
-.register-divider::before,
-.register-divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.register-divider span { padding: 0 10px; }
-
-/* ── Form ── */
-.register-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.register-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.register-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.register-field label {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: rgba(196, 184, 224, 0.7);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.register-field input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.06);
-  color: #f0eeff;
-  font-size: 0.92rem;
-  outline: none;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(6px);
-}
-
-.register-field input::placeholder {
-  color: rgba(196, 184, 224, 0.30);
-}
-
-.register-field input:focus {
-  border-color: rgba(124, 58, 237, 0.55);
-  background: rgba(124, 58, 237, 0.07);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
-}
-
-/* ── Error ── */
-.register-error {
-  font-size: 0.84rem;
-  color: #ff6b6b;
-  background: rgba(255, 80, 80, 0.1);
-  border: 1px solid rgba(255, 80, 80, 0.2);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-}
-
-/* ── Submit ── */
-.register-submit {
-  width: 100%;
-  padding: 14px 28px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #7c3aed, #a855f7, #e91e8c);
-  color: #fff;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.45);
-  margin-top: 4px;
-  transition: box-shadow 0.25s ease;
-}
-
-.register-submit:hover { box-shadow: 0 8px 32px rgba(124, 58, 237, 0.55); }
-.register-submit:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.register-spinner {
-  display: inline-block;
-  width: 20px; height: 20px;
-  border: 2.5px solid rgba(255,255,255,0.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-/* ── Google Sign-Up ── */
-.google-signup-container {
-  display: flex;
-  justify-content: center;
-  min-height: 44px;
-}
-
-.google-signup-container > div {
-  width: 100% !important;
-}
-
-.google-signup-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.google-signup-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.google-signup-btn img {
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-}
-
-/* ── Login link ── */
-.register-login-link {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 0.88rem;
-  color: rgba(196, 184, 224, 0.75);
-}
-
-.register-login-link a {
-  color: #a855f7;
-  text-decoration: none;
-  font-weight: 700;
-  transition: color 0.2s;
-}
-
-.register-login-link a:hover {
-  color: #e91e8c;
-  text-decoration: underline;
-}
-
-.register-branding {
-  position: fixed;
-  bottom: 16px;
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.18);
-  z-index: 10;
-}
-
-/* ── Responsive ── */
-@media (max-width: 520px) {
-  .register-card { padding: 28px 20px 24px; }
-  .register-row { grid-template-columns: 1fr; }
-}
-
-/* ── Logo Glow ── */
 @keyframes logoGlow {
   0%, 100% {
     filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.15))
@@ -310,6 +100,161 @@
   }
 }
 
-.register-logo-img {
-  animation: logoGlow 3s ease-in-out infinite;
+/* ── Titles ── */
+.onboarding-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f0eeff;
+  margin-bottom: 6px;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.onboarding-subtitle {
+  font-size: 0.88rem;
+  color: rgba(196, 184, 224, 0.75);
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* ── Progress ── */
+.onboarding-progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.onboarding-progress-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+}
+
+.onboarding-progress-dot.active {
+  background: linear-gradient(135deg, #7c3aed, #e91e8c);
+}
+
+/* ── Form ── */
+.onboarding-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.onboarding-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.onboarding-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(196, 184, 224, 0.7);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.onboarding-field input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0eeff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.onboarding-field input::placeholder { color: rgba(196, 184, 224, 0.30); }
+.onboarding-field input:focus {
+  border-color: rgba(124, 58, 237, 0.55);
+  background: rgba(124, 58, 237, 0.07);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+/* ── Row ── */
+.onboarding-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ── Submit ── */
+.onboarding-submit {
+  width: 100%;
+  padding: 15px 28px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #7c3aed, #a855f7, #e91e8c);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.45);
+  margin-top: 8px;
+  transition: box-shadow 0.25s ease;
+}
+
+.onboarding-submit:hover { box-shadow: 0 8px 32px rgba(124, 58, 237, 0.55); }
+.onboarding-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.onboarding-spinner {
+  display: inline-block;
+  width: 20px; height: 20px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Error ── */
+.onboarding-error {
+  font-size: 0.84rem;
+  color: #ff6b6b;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+/* ── Skip ── */
+.onboarding-skip {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.84rem;
+  color: rgba(196, 184, 224, 0.55);
+}
+
+.onboarding-skip button {
+  background: none;
+  border: none;
+  color: rgba(168, 85, 247, 0.7);
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.onboarding-skip button:hover { color: #e91e8c; }
+
+.onboarding-branding {
+  position: fixed;
+  bottom: 16px;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.18);
+  z-index: 10;
+}
+
+@media (max-width: 520px) {
+  .onboarding-card { padding: 28px 20px 24px; }
+  .onboarding-row { grid-template-columns: 1fr; }
 }

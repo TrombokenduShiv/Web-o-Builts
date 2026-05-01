@@ -161,13 +161,8 @@
   box-shadow: 0 0 0 3px rgba(233, 30, 140, 0.12);
 }
 
-/* ── OTP Hint ── */
-.login-otp-hint {
-  font-size: 0.78rem;
-  color: rgba(168, 85, 247, 0.75);
-  margin: 0;
-  animation: fadeIn 0.4s ease;
-}
+/* ── OTP Hint (removed — OTP no longer used) ── */
+
 
 /* ── Error ── */
 .login-error {
@@ -254,30 +249,8 @@
   z-index: 10;
 }
 
-/* ── Tabs ── */
-.login-tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
-}
+/* ── Tabs (removed — only password + Google now) ── */
 
-.login-tab {
-  flex: 1;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: #c4b8e0;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.login-tab.active {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-}
 
 .login-divider {
   display: flex;
@@ -353,4 +326,21 @@
 /* ── Responsive ── */
 @media (max-width: 480px) {
   .login-card { padding: 32px 24px 28px; }
+}
+
+/* ── Logo Glow ── */
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.15))
+            drop-shadow(0 0 8px rgba(124, 58, 237, 0.08));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35))
+            drop-shadow(0 0 20px rgba(124, 58, 237, 0.15))
+            drop-shadow(0 0 30px rgba(236, 72, 153, 0.08));
+  }
+}
+
+.login-logo-img {
+  animation: logoGlow 3s ease-in-out infinite;
 }

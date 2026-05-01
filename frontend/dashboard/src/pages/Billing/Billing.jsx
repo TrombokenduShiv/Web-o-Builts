@@ -11,6 +11,107 @@ const slideVariants = {
   exit:  dir => ({ x: dir > 0 ? -40 : 40, opacity: 0 }),
 };
 
+/* ── Policy Document Content (full clauses) ── */
+const PRIVACY_POLICY_TEXT = `PRIVACY POLICY — Last Updated: May 1, 2026
+
+This Privacy Policy describes how Web-o-Builts collects, uses, processes, stores, and protects personal data of users in compliance with applicable Indian laws, including the Digital Personal Data Protection Act, 2023 and the Information Technology Act, 2000.
+
+1. DEFINITIONS: "Personal Data" means any data about an individual who is identifiable by or in relation to such data. "Processing" includes collection, storage, use, disclosure, or deletion of data. "Data Principal" refers to the individual to whom the personal data relates.
+
+2. INFORMATION WE COLLECT: Personal Identification (Full Name, Email, Phone); Business Information (name, status); Account Information (login credentials); Transactional Information (payment details via Fiverr); Technical & Usage Data (IP, browser, device, analytics).
+
+3. PURPOSE: To communicate regarding projects; provide web development services; manage accounts; send marketing communications; improve services through analytics; comply with legal obligations.
+
+4. LEGAL BASIS: Your consent; contractual obligations; legitimate business interests; compliance with laws.
+
+5. DATA STORAGE: Cloud-based platforms, Fiverr infrastructure, internal databases including Google Sheets. Data retained only as long as necessary.
+
+6. DATA SHARING: We do not sell personal data. We may share with analytics providers (Google Analytics), payment processors (Fiverr), hosting providers. Third parties must maintain confidentiality.
+
+7. DATA SECURITY: Reasonable technical and organizational measures implemented. No absolute guarantee of security.
+
+8. USER RIGHTS: Access, correction, and withdrawal of consent. Contact: webobuilts@gmail.com
+
+9. CHILDREN'S PRIVACY: Services not intended for individuals under 18.
+
+10. COOKIES: No direct cookies. Third-party tools may use tracking technologies.
+
+11. INTERNATIONAL TRANSFER: Data may be processed outside India with applicable safeguards.
+
+12. MARKETING: Opt out at any time by contacting us.
+
+13. THIRD-PARTY LINKS: Not responsible for third-party privacy practices.
+
+14. GOVERNING LAW: Laws of India. Jurisdiction: Chandigarh and Assam, India.
+
+15. CHANGES: May be updated at any time. Effective upon posting.
+
+16. CONTACT: webobuilts@gmail.com`;
+
+const TERMS_OF_SERVICE_TEXT = `TERMS OF SERVICE — Last Updated: May 1, 2026
+
+These Terms govern your use of services provided by Web-o-Builts, a freelance web development service provider operating in India.
+
+1. SERVICES: Static/dynamic website development, full-stack solutions, customization, SEO optimization, e-commerce integration. Delivered based on agreed scope.
+
+2. ELIGIBILITY: Must be 18+ years of age.
+
+3. USER RESPONSIBILITIES: Provide accurate information; submit content on time; ensure rights to content; no illegal use.
+
+4. PAYMENTS: Processed via Fiverr or agreed platforms only. Prices communicated beforehand. Work begins after payment confirmation.
+
+5. REVISIONS: Based on selected package. Extra revisions may incur charges. Major scope changes treated as new project.
+
+6. PROJECT DELIVERY: Timelines depend on complexity. Client-caused delays not our responsibility. Complete when agreed features implemented.
+
+7. INTELLECTUAL PROPERTY: Ownership transferred upon full payment. We may showcase in portfolio.
+
+8. THIRD-PARTY SERVICES: We may integrate hosting, domain, payment gateways. Not responsible for their performance/policies.
+
+9. LIMITATION OF LIABILITY: No liability for indirect/incidental/consequential damages. Not responsible for business losses, downtime, data loss. Total liability limited to amount paid.
+
+10. TERMINATION: We may refuse/terminate service at discretion. No refunds for completed/partial work unless required by platform policies.
+
+11. REFUND POLICY: Governed by Fiverr's policies. No refunds after substantial work. Partial refunds at discretion.
+
+12. DATA AND PRIVACY: Governed by our Privacy Policy.
+
+13. INTERNATIONAL CLIENTS: Must comply with local laws.
+
+14. GOVERNING LAW: Laws of India. Jurisdiction: Chandigarh and Assam, India.
+
+15. CHANGES: May be updated anytime. Continued use constitutes acceptance.
+
+16. CONTACT: webobuilts@gmail.com`;
+
+const REFUND_POLICY_TEXT = `REFUND POLICY — Last Updated: May 1, 2026
+
+This Refund Policy outlines terms under which Web-o-Builts provides refunds for services offered via our website and Fiverr.
+
+1. GENERAL: All sales generally non-refundable once work has commenced. Refunds only under specific conditions.
+
+2. PLATFORM-BASED PAYMENTS: Fiverr payments subject to Fiverr's policies. Requests through Fiverr's resolution system.
+
+3. ELIGIBILITY: Project not started; unable to deliver agreed service; mutual cancellation agreement.
+
+4. NON-REFUNDABLE: Work started/completed; client-caused delays; change of mind; out-of-scope requests; subjective dissatisfaction.
+
+5. PARTIAL REFUNDS: At discretion for partially completed projects or exceptional circumstances.
+
+6. REVISIONS: Revisions per package. Refunds not granted for revision-resolvable issues.
+
+7. PROJECT ABANDONMENT: No response for 7+ days = abandoned. No refunds; project marked complete.
+
+8. CHARGEBACKS: Unauthorized chargebacks discouraged. Evidence of work may be provided. Legal action for fraud.
+
+9. PROCESSING: Via original payment method. Timing depends on platform.
+
+10. MODIFICATIONS: May be modified anytime.
+
+11. GOVERNING LAW: Laws of India. Jurisdiction: Chandigarh and Assam, India.
+
+12. CONTACT: webobuilts@gmail.com`;
+
 export default function Billing() {
   const { user } = useAuth();
   const [tab, setTab] = useState(0);
@@ -20,12 +121,13 @@ export default function Billing() {
   const [loading, setLoading] = useState(true);
   const [sigName, setSigName] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [agreedPrivacy, setAgreedPrivacy] = useState(false);
+  const [agreedTerms, setAgreedTerms] = useState(false);
+  const [agreedRefund, setAgreedRefund] = useState(false);
   const [signed, setSigned] = useState(false);
   const [signing, setSigning] = useState(false);
   const [payLoading, setPayLoading] = useState(false);
   const [payDone, setPayDone] = useState(false);
-  const [showCheck, setShowCheck] = useState(false);
-  const checkRef = useRef(null);
 
   useEffect(() => {
     Promise.all([getBillingStatus(), getBillingDocuments()]).then(([b, d]) => {
@@ -43,16 +145,15 @@ export default function Billing() {
   const dir = tab > prevTab ? 1 : -1;
 
   const handleSign = async () => {
-    if (!agreed || !sigName.trim()) return;
+    if (!canSign) return;
     setSigning(true);
-    await signAgreement(sigName);
+    try {
+      await signAgreement(sigName);
+    } catch (e) {
+      console.warn('Agreement sign error:', e);
+    }
     setSigning(false);
     setSigned(true);
-  };
-
-  const handleAgree = () => {
-    setAgreed(v => !v);
-    setShowCheck(true);
   };
 
   const handlePay = async () => {
@@ -60,9 +161,8 @@ export default function Billing() {
     setPayLoading(true);
     try {
       const orderData = await initiateAdvancePayment();
-      
       const options = {
-        key: 'rzp_test_dummy_key', // This is safe to expose, but usually passed from backend
+        key: 'rzp_test_dummy_key',
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'Web-o-Builts',
@@ -89,7 +189,7 @@ export default function Billing() {
 
       const rzp = new window.Razorpay(options);
       rzp.on('payment.failed', function (response){
-          alert('Payment Failed: ' + response.error.description);
+        alert('Payment Failed: ' + response.error.description);
       });
       rzp.open();
     } catch (err) {
@@ -100,8 +200,30 @@ export default function Billing() {
     }
   };
 
-  const canSign = sigName.trim().length >= 3 && agreed;
+  const allPoliciesAgreed = agreedPrivacy && agreedTerms && agreedRefund;
+  const canSign = sigName.trim().length >= 3 && agreed && allPoliciesAgreed;
   const canPay  = signed && !payDone;
+
+  const renderPolicyCheckbox = (label, checked, onChange, docName) => (
+    <label className={`billing-agree-row ${signed ? 'signed' : ''}`}>
+      <div className="billing-checkbox-wrap" onClick={!signed ? onChange : undefined}>
+        <input type="checkbox" checked={checked} onChange={() => {}} disabled={signed} />
+        <div className={`billing-custom-checkbox ${checked ? 'checked' : ''}`}>
+          {(checked || signed) && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <motion.path
+                d="M5 13l4 4L19 7"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+              />
+            </svg>
+          )}
+        </div>
+      </div>
+      <span>I have read and agree to the <strong>{docName}</strong>.</span>
+    </label>
+  );
 
   return (
     <div className="billing-page">
@@ -165,7 +287,7 @@ export default function Billing() {
               </motion.div>
             )}
 
-            {/* Contract — OPAQUE panel (strict readability rule) */}
+            {/* Contract — Website Development Agreement */}
             <div className="billing-contract-wrap">
               <div className="billing-contract-header">
                 <Shield size={15} />
@@ -180,7 +302,40 @@ export default function Billing() {
               </div>
             </div>
 
-            {/* Signature field */}
+            {/* Privacy Policy Document */}
+            <div className="billing-contract-wrap">
+              <div className="billing-contract-header">
+                <Shield size={15} />
+                <span>Privacy Policy</span>
+              </div>
+              <div className="billing-contract-body">
+                <pre className="billing-contract-text">{PRIVACY_POLICY_TEXT}</pre>
+              </div>
+            </div>
+
+            {/* Terms of Service Document */}
+            <div className="billing-contract-wrap">
+              <div className="billing-contract-header">
+                <Shield size={15} />
+                <span>Terms of Service</span>
+              </div>
+              <div className="billing-contract-body">
+                <pre className="billing-contract-text">{TERMS_OF_SERVICE_TEXT}</pre>
+              </div>
+            </div>
+
+            {/* Refund Policy Document */}
+            <div className="billing-contract-wrap">
+              <div className="billing-contract-header">
+                <Shield size={15} />
+                <span>Refund Policy</span>
+              </div>
+              <div className="billing-contract-body">
+                <pre className="billing-contract-text">{REFUND_POLICY_TEXT}</pre>
+              </div>
+            </div>
+
+            {/* Signature & Agreement Section */}
             <div className="billing-sign-section">
               <div className="billing-sign-field-wrap">
                 <div className={`billing-floating-field ${sigName ? 'has-value' : ''}`}>
@@ -196,9 +351,9 @@ export default function Billing() {
                 </div>
               </div>
 
-              {/* I Agree checkbox with SVG draw animation */}
+              {/* Agreement checkbox */}
               <label className={`billing-agree-row ${signed ? 'signed' : ''}`}>
-                <div className="billing-checkbox-wrap" onClick={!signed ? handleAgree : undefined}>
+                <div className="billing-checkbox-wrap" onClick={!signed ? () => setAgreed(v => !v) : undefined}>
                   <input type="checkbox" checked={agreed} onChange={() => {}} disabled={signed} />
                   <div className={`billing-custom-checkbox ${agreed ? 'checked' : ''}`}>
                     {(agreed || signed) && (
@@ -219,6 +374,11 @@ export default function Billing() {
                 </span>
               </label>
 
+              {/* Policy agreement checkboxes */}
+              {renderPolicyCheckbox('privacy', agreedPrivacy, () => setAgreedPrivacy(v => !v), 'Privacy Policy')}
+              {renderPolicyCheckbox('terms', agreedTerms, () => setAgreedTerms(v => !v), 'Terms of Service')}
+              {renderPolicyCheckbox('refund', agreedRefund, () => setAgreedRefund(v => !v), 'Refund Policy')}
+
               {!signed ? (
                 <motion.button
                   className={`billing-sign-btn ${canSign ? 'ready' : ''}`}
@@ -236,7 +396,7 @@ export default function Billing() {
               )}
             </div>
 
-            {/* 30% Advance Payment Button — liquid wipe animation */}
+            {/* 30% Advance Payment Button */}
             <div className="billing-pay-section">
               <p className="billing-pay-label">
                 30% Advance Payment (₹{billing?.advance_amount?.toLocaleString('en-IN')})
@@ -249,7 +409,6 @@ export default function Billing() {
                   whileTap={canPay ? { scale: 0.94 } : {}}
                   transition={{ type:'spring', stiffness:400, damping:17 }}
                 >
-                  {/* Liquid wipe fill overlay */}
                   {canPay && !payDone && (
                     <motion.span
                       className="billing-pay-fill"
@@ -270,7 +429,7 @@ export default function Billing() {
                   </span>
                 </motion.button>
                 {!signed && (
-                  <p className="billing-pay-hint">Button unlocks after you sign the agreement above.</p>
+                  <p className="billing-pay-hint">Button unlocks after you sign the agreement and accept all policies above.</p>
                 )}
               </div>
             </div>

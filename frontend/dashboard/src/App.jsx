@@ -3,6 +3,7 @@ import { useAuth } from './context/AuthContext';
 import Shell from './components/Shell/Shell';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import Onboarding from './pages/Onboarding/Onboarding';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Calls from './pages/Calls/Calls';
 import Billing from './pages/Billing/Billing';
@@ -29,6 +30,9 @@ export default function App() {
       {/* Public */}
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+
+      {/* Onboarding — protected but outside shell */}
+      <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 
       {/* Protected — all inside the Shell layout */}
       <Route

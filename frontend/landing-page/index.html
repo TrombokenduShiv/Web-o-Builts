@@ -15,7 +15,7 @@
   <script>
     window.__CONFIG = {
       API_BASE: 'https://webobuilts-api.onrender.com',
-      DASHBOARD_URL: 'https://web-o-builts.vercel.app/login',
+      DASHBOARD_URL: 'https://web-o-builts.vercel.app',
       GOOGLE_CLIENT_ID: '245786288168-l0lmpehdat0f690lumk3n7lt8gjbatju.apps.googleusercontent.com'
     };
   </script>
@@ -62,8 +62,8 @@
     <div class="nav-controls">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" role="switch"
         aria-checked="true"></button>
-      <button class="btn-portal" id="portalBtn" onclick="openAuthModal()">
-        Login / Sign Up
+      <button class="btn-portal" id="portalBtn">
+        Client Portal
       </button>
     </div>
   </header>
@@ -245,30 +245,12 @@
 
         <hr class="pkg-divider">
         <ul class="pkg-features" aria-label="Essentials plan features">
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Custom Website Build
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Managed Hosting (1 Year)
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Mobile-First Responsive Design
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Basic On-Page SEO Setup
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Contact Form & Lead Capture
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            30-Day Post-Launch Support
-          </li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Custom Website Build</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Managed Hosting (1 Year)</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Mobile-First Responsive Design</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Basic On-Page SEO Setup</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Contact Form & Lead Capture</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> 30-Day Post-Launch Support</li>
         </ul>
         <a href="#footer" class="btn-outline" id="standardCTA">
           <span>Start Essential →</span>
@@ -287,30 +269,12 @@
         </div>
         <hr class="pkg-divider">
         <ul class="pkg-features" aria-label="Growth plan features">
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Everything in Essentials
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Full SEO Optimisation Suite
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Monthly Maintenance & Updates
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Web Performance Boosting
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Analytics Dashboard Access
-          </li>
-          <li>
-            <span class="feature-check" aria-hidden="true">✓</span>
-            Priority Support (WhatsApp / Email)
-          </li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Everything in Essentials</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Full SEO Optimisation Suite</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Monthly Maintenance & Updates</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Web Performance Boosting</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Analytics Dashboard Access</li>
+          <li><span class="feature-check" aria-hidden="true">✓</span> Priority Support (Email)</li>
         </ul>
         <button class="btn-primary" id="proCTA">
           Start Growth
@@ -341,24 +305,23 @@
             <ul>
               <li><a href="#why-us">Why Us</a></li>
               <li><a href="#packages">Packages</a></li>
-              <li><a href="#" onclick="openAuthModal('signup'); return false;">Get Started</a></li>
-              <li><a href="#" onclick="openAuthModal('login'); return false;">Client Portal</a></li>
+              <li><a href="#" id="footerGetStarted">Get Started</a></li>
+              <li><a href="#" id="footerClientPortal">Client Portal</a></li>
             </ul>
           </div>
           <div class="footer-col">
             <h4>Legal</h4>
             <ul>
-              <li><a href="/privacy">Privacy Policy</a></li>
-              <li><a href="/terms">Terms of Service</a></li>
-              <li><a href="/refund">Refund Policy</a></li>
+              <li><a href="privacy.html">Privacy Policy</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
+              <li><a href="refund.html">Refund Policy</a></li>
             </ul>
           </div>
           <div class="footer-col">
             <h4>Contact</h4>
             <ul>
-              <li><a href="mailto:hello@web-o-builts.com">hello@web-o-builts.com</a></li>
-              <li><a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a></li>
-              <li><a href="/dashboard/calls">Schedule a Call</a></li>
+              <li><a href="mailto:webobuilts@gmail.com">webobuilts@gmail.com</a></li>
+              <li><a href="#" id="footerScheduleCall">Schedule a Call</a></li>
             </ul>
           </div>
         </div>
@@ -369,18 +332,18 @@
           © 2026 Web-o-Builts. All rights reserved.
         </span>
         <nav class="footer-legal" aria-label="Legal links">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
-          <a href="/refund">Refund</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="refund.html">Refund</a>
         </nav>
       </div>
     </div>
   </footer>
 
   <!-- ═══════════════════════════════════════════
-       AUTH MODAL
+       ANALYSIS RESULTS MODAL (kept for growth analysis)
   ═══════════════════════════════════════════ -->
-  <div id="authModal" class="auth-modal-overlay" role="dialog" aria-modal="true" aria-label="Authentication"
+  <div id="authModal" class="auth-modal-overlay" role="dialog" aria-modal="true" aria-label="Analysis Results"
     data-theme="dark">
     <div class="auth-modal-card" id="authModalCard">
 
@@ -392,9 +355,9 @@
         <img src="images/logo-icon.png" alt="Web-o-Builts" class="auth-logo-img">
       </div>
 
-      <!-- ── SCREEN 0: Analysis Results (Bubble Report) ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenAnalysis">
-        <!-- Bubble burst particles container (inside modal card) -->
+      <!-- ── Analysis Results (Bubble Report) ── -->
+      <div class="auth-screen" id="authScreenAnalysis">
+        <!-- Bubble burst particles container -->
         <div class="bubble-burst-container" id="bubbleBurstContainer" aria-hidden="true"></div>
 
         <div class="report-bubble-card" id="reportBubbleCard">
@@ -457,18 +420,9 @@
 
           <!-- Recommendations -->
           <div class="report-recs" id="reportRecs">
-            <div class="rec-pill" id="rec1">
-              <span class="rec-dot high"></span>
-              <span class="rec-text">Loading...</span>
-            </div>
-            <div class="rec-pill" id="rec2">
-              <span class="rec-dot medium"></span>
-              <span class="rec-text">Loading...</span>
-            </div>
-            <div class="rec-pill" id="rec3">
-              <span class="rec-dot medium"></span>
-              <span class="rec-text">Loading...</span>
-            </div>
+            <div class="rec-pill" id="rec1"><span class="rec-dot high"></span><span class="rec-text">Loading...</span></div>
+            <div class="rec-pill" id="rec2"><span class="rec-dot medium"></span><span class="rec-text">Loading...</span></div>
+            <div class="rec-pill" id="rec3"><span class="rec-dot medium"></span><span class="rec-text">Loading...</span></div>
           </div>
 
           <!-- Summary -->
@@ -483,172 +437,9 @@
         </button>
       </div>
 
-      <!-- ── SCREEN 1: Choose Login or Sign Up ── -->
-      <div class="auth-screen" id="authScreenChoose">
-        <h2 class="auth-title">Welcome Back</h2>
-        <p class="auth-subtitle">Join thousands of businesses growing with us.</p>
-        <div class="auth-choice-buttons">
-          <button class="auth-choice-btn auth-choice-login" id="chooseLogin">
-            <span class="auth-choice-icon">🔑</span>
-            Login
-          </button>
-          <button class="auth-choice-btn auth-choice-signup" id="chooseSignup">
-            <span class="auth-choice-icon">✨</span>
-            Sign Up
-          </button>
-        </div>
-      </div>
-
-      <!-- ── SCREEN 2a: Login — Choose Method ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenLogin">
-        <button class="auth-back" id="loginBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Login</h2>
-        <p class="auth-subtitle">Choose how you'd like to log in.</p>
-        <div class="auth-method-buttons">
-          <button class="auth-method-btn" id="loginWithEmail">
-            <span class="auth-method-icon">📧</span>
-            Continue with Google
-          </button>
-          <div class="auth-or"><span>or</span></div>
-          <button class="auth-method-btn" id="loginWithPhone">
-            <span class="auth-method-icon">📱</span>
-            Enter your Mobile Number
-          </button>
-        </div>
-      </div>
-
-      <!-- ── SCREEN 2b: Login — Email Form ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenLoginEmail">
-        <button class="auth-back" id="loginEmailBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Login with Email</h2>
-        <p class="auth-subtitle">Enter your credentials to continue.</p>
-        <form class="auth-form" id="loginEmailForm" onsubmit="return false;">
-          <div class="auth-field">
-            <label for="loginEmail">Email Address</label>
-            <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
-          </div>
-          <div class="auth-field">
-            <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-          </div>
-          <button type="submit" class="btn-primary auth-submit" id="loginEmailSubmit">Login →</button>
-        </form>
-      </div>
-
-      <!-- ── SCREEN 2c: Login — Phone Form ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenLoginPhone">
-        <button class="auth-back" id="loginPhoneBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Login with Mobile</h2>
-        <p class="auth-subtitle">We'll send you a verification code.</p>
-        <form class="auth-form" id="loginPhoneForm" onsubmit="return false;">
-          <div class="auth-field">
-            <label for="loginPhone">Mobile Number</label>
-            <input type="tel" id="loginPhone" placeholder="+91 98765 43210" autocomplete="tel">
-          </div>
-          <button type="submit" class="btn-primary auth-submit" id="loginPhoneSubmit">Send OTP →</button>
-        </form>
-      </div>
-
-      <!-- ── SCREEN 3a: Sign Up — Choose Method ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenSignup">
-        <button class="auth-back" id="signupBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Create Account</h2>
-        <p class="auth-subtitle">Start your growth journey today.</p>
-        <div class="auth-method-buttons">
-          <button class="auth-method-btn" id="signupWithEmail">
-            <span class="auth-method-icon">📧</span>
-            Continue with Google
-          </button>
-          <div class="auth-or"><span>or</span></div>
-          <button class="auth-method-btn" id="signupWithPhone">
-            <span class="auth-method-icon">📱</span>
-            Enter your Mobile Number
-          </button>
-        </div>
-      </div>
-
-      <!-- ── SCREEN 3b: Sign Up — Email Form ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenSignupEmail">
-        <button class="auth-back" id="signupEmailBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Sign Up with Email</h2>
-        <p class="auth-subtitle">Create your free account.</p>
-        <form class="auth-form" id="signupEmailForm" onsubmit="return false;">
-          <div class="auth-field">
-            <label for="signupName">Full Name</label>
-            <input type="text" id="signupName" placeholder="Your Name" autocomplete="name">
-          </div>
-          <div class="auth-field">
-            <label for="signupEmail">Email Address</label>
-            <input type="email" id="signupEmail" placeholder="you@example.com" autocomplete="email">
-          </div>
-          <div class="auth-field">
-            <label for="signupPassword">Password</label>
-            <input type="password" id="signupPassword" placeholder="Create a password" autocomplete="new-password">
-          </div>
-          <button type="submit" class="btn-primary auth-submit" id="signupEmailSubmit">Create Account →</button>
-        </form>
-      </div>
-
-      <!-- ── SCREEN 3c: Sign Up — Phone Form ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenSignupPhone">
-        <button class="auth-back" id="signupPhoneBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Sign Up with Mobile</h2>
-        <p class="auth-subtitle">We'll send you a verification code.</p>
-        <form class="auth-form" id="signupPhoneForm" onsubmit="return false;">
-          <div class="auth-field">
-            <label for="signupPhoneName">Full Name</label>
-            <input type="text" id="signupPhoneName" placeholder="Your Name" autocomplete="name">
-          </div>
-          <div class="auth-field">
-            <label for="signupPhone">Mobile Number</label>
-            <input type="tel" id="signupPhone" placeholder="+91 98765 43210" autocomplete="tel">
-          </div>
-          <button type="submit" class="btn-primary auth-submit" id="signupPhoneSubmit">Send OTP →</button>
-        </form>
-      </div>
-
-      <!-- ── SCREEN OTP: Verify Mobile ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenOTP">
-        <button class="auth-back" id="otpBack" aria-label="Go back">← Back</button>
-        <h2 class="auth-title">Verify your Number</h2>
-        <p class="auth-subtitle">Enter the 4-digit code sent to your mobile.</p>
-
-        <div class="otp-boxes" id="otpBoxes">
-          <input class="otp-input" id="otp1" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
-            aria-label="Digit 1">
-          <input class="otp-input" id="otp2" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
-            aria-label="Digit 2">
-          <input class="otp-input" id="otp3" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
-            aria-label="Digit 3">
-          <input class="otp-input" id="otp4" type="text" inputmode="numeric" maxlength="1" autocomplete="off"
-            aria-label="Digit 4">
-        </div>
-
-        <p class="otp-hint">We'll send you a verification code.</p>
-
-        <div class="otp-timer-row">
-          <span class="otp-timer-label" id="otpTimerLabel">Resend in <strong id="otpTimerCount">60</strong>s</span>
-          <button class="otp-resend-btn" id="otpResendBtn" style="display:none;">Resend</button>
-        </div>
-
-        <button class="btn-primary auth-submit" id="otpVerifyBtn">Verify &amp; Continue →</button>
-      </div>
-
-      <!-- ── SCREEN 4: Success ── -->
-      <div class="auth-screen auth-screen-hidden" id="authScreenSuccess">
-        <div class="auth-success-icon">🎉</div>
-        <h2 class="auth-title auth-success-title">Congratulations!</h2>
-        <p class="auth-success-quote">
-          Welcome to the <span class="gradient-text">Web-o-Builts</span> family.<br>
-          Let's grow together!
-        </p>
-        <button class="btn-primary auth-submit" id="authSuccessClose">Let's Go ✦</button>
-      </div>
-
     </div>
   </div>
 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/main.js"></script>
 </body>
 

@@ -135,32 +135,23 @@ export async function googleTokenLogin(credential) {
   }
 }
 
-export async function generateOtp(email) {
-  try {
-    const res = await apiClient.post('/auth/otp/generate/', { email });
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.error || 'Failed to send OTP. Please try again.'
-    );
-  }
-}
 
-export async function loginWithOtp(email, otp) {
-  try {
-    const res = await apiClient.post('/auth/otp/verify/', { email, otp });
-    localStorage.setItem('access_token', res.data.access);
-    localStorage.setItem('refresh_token', res.data.refresh);
-    return { token: res.data.access, user: res.data.user };
-  } catch (error) {
-    throw new Error(error.response?.data?.error || 'Invalid OTP.');
-  }
-}
 
 /* ── Users ── */
 export async function getMe() {
   const res = await apiClient.get('/auth/profile/');
   return res.data;
+}
+
+export async function updateProfile(data) {
+  try {
+    const res = await apiClient.patch('/auth/profile/', data);
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.error || 'Failed to update profile.'
+    );
+  }
 }
 
 /* ── Dashboard ── */
@@ -343,10 +334,6 @@ export async function getMaintenanceLogs() {
 }
 
 /* ── Settings ── */
-export async function updateProfile(data) {
-  const res = await apiClient.patch('/auth/profile/', data);
-  return { success: true, message: 'Profile updated successfully', ...res.data };
-}
 
 export async function changePassword(oldPass, newPass) {
   try {

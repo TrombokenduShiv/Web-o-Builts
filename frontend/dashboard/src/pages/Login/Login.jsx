@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { login, generateOtp, loginWithOtp, googleTokenLogin } from '../../services/api';
+import { login, googleTokenLogin } from '../../services/api';
 import './Login.css';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
@@ -12,14 +12,10 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [otp, setOtp] = useState('');
-  const [authMode, setAuthMode] = useState('password'); // 'password' or 'otp'
-  const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passFocused, setPassFocused] = useState(false);
-  const [otpFocused, setOtpFocused] = useState(false);
 
   // ── Google Identity Services ──
   const handleGoogleCredential = useCallback(async (response) => {
@@ -28,7 +24,12 @@ export default function Login() {
     try {
       const result = await googleTokenLogin(response.credential);
       loginUser(result.user);
-      navigate('/dashboard');
+      // Check if new user needs onboarding
+      if (result.user.is_new || !result.user.business_name) {
+        navigate('/onboarding');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -46,7 +47,6 @@ export default function Login() {
           callback: handleGoogleCredential,
           auto_select: false,
         });
-        // Render the custom button
         const btnContainer = document.getElementById('googleSignInBtn');
         if (btnContainer) {
           window.google.accounts.id.renderButton(btnContainer, {
@@ -61,7 +61,6 @@ export default function Login() {
       }
     };
 
-    // Load the Google Identity Services script if not already loaded
     if (!document.getElementById('google-gsi-script')) {
       const script = document.createElement('script');
       script.id = 'google-gsi-script';
@@ -71,7 +70,8 @@ export default function Login() {
       script.onload = initGoogle;
       document.head.appendChild(script);
     } else {
-      initGoogle();
+      // Retry initialization after a brief delay if google not ready
+      setTimeout(initGoogle, 300);
     }
   }, [handleGoogleCredential]);
 
@@ -81,23 +81,10 @@ export default function Login() {
     setLoading(true);
 
     try {
-      if (authMode === 'password') {
-        if (!email || !password) throw new Error('Please fill in all fields.');
-        const result = await login(email, password);
-        loginUser(result.user);
-        navigate('/dashboard');
-      } else if (authMode === 'otp') {
-        if (!otpSent) {
-          if (!email) throw new Error('Please enter your email.');
-          await generateOtp(email);
-          setOtpSent(true);
-        } else {
-          if (!otp) throw new Error('Please enter the OTP.');
-          const result = await loginWithOtp(email, otp);
-          loginUser(result.user);
-          navigate('/dashboard');
-        }
-      }
+      if (!email || !password) throw new Error('Please fill in all fields.');
+      const result = await login(email, password);
+      loginUser(result.user);
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -136,16 +123,16 @@ export default function Login() {
         <h1 className="login-title">Client Portal</h1>
         <p className="login-subtitle">Sign in to manage your project.</p>
 
-        <div className="login-tabs">
-          <button
-            className={`login-tab ${authMode === 'password' ? 'active' : ''}`}
-            onClick={() => { setAuthMode('password'); setOtpSent(false); setError(''); }}
-          >Password</button>
-          <button
-            className={`login-tab ${authMode === 'otp' ? 'active' : ''}`}
-            onClick={() => { setAuthMode('otp'); setError(''); }}
-          >OTP Login</button>
-        </div>
+        {/* Google Sign-In */}
+        {GOOGLE_CLIENT_ID ? (
+          <div id="googleSignInBtn" className="google-signin-container" />
+        ) : (
+          <button type="button" className="google-login-btn" disabled>
+            Google Sign-In (not configured)
+          </button>
+        )}
+
+        <div className="login-divider"><span>OR</span></div>
 
         <form className="login-form" onSubmit={handleSubmit} noValidate>
           {/* Email field */}
@@ -163,41 +150,20 @@ export default function Login() {
             />
           </div>
 
-          {/* Password field - only show if mode is password */}
-          {authMode === 'password' && (
-            <div className={`login-field ${passFocused || password ? 'active' : ''}`}>
-              <label htmlFor="loginPassword">Password</label>
-              <input
-                id="loginPassword"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                onFocus={() => setPassFocused(true)}
-                onBlur={() => setPassFocused(false)}
-                autoComplete="current-password"
-                placeholder="••••••••"
-              />
-            </div>
-          )}
-
-          {/* OTP field - only show if mode is otp and otp is sent */}
-          {authMode === 'otp' && otpSent && (
-            <div className={`login-field ${otpFocused || otp ? 'active' : ''}`}>
-              <label htmlFor="loginOtp">One-Time Password</label>
-              <input
-                id="loginOtp"
-                type="text"
-                value={otp}
-                onChange={e => setOtp(e.target.value)}
-                onFocus={() => setOtpFocused(true)}
-                onBlur={() => setOtpFocused(false)}
-                autoComplete="one-time-code"
-                placeholder="Enter 6-digit code from your email"
-                maxLength={6}
-              />
-              <p className="login-otp-hint">Check your email for the verification code.</p>
-            </div>
-          )}
+          {/* Password field */}
+          <div className={`login-field ${passFocused || password ? 'active' : ''}`}>
+            <label htmlFor="loginPassword">Password</label>
+            <input
+              id="loginPassword"
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              onFocus={() => setPassFocused(true)}
+              onBlur={() => setPassFocused(false)}
+              autoComplete="current-password"
+              placeholder="••••••••"
+            />
+          </div>
 
           {/* Error */}
           <AnimatePresence>
@@ -224,29 +190,17 @@ export default function Login() {
             {loading ? (
               <span className="login-spinner" aria-label="Loading" />
             ) : (
-              <>{authMode === 'password' ? 'Sign In' : (otpSent ? 'Verify OTP' : 'Send OTP')} →</>
+              <>Sign In →</>
             )}
           </motion.button>
         </form>
-
-        <div className="login-divider"><span>OR</span></div>
-
-        {/* Google Sign-In */}
-        {GOOGLE_CLIENT_ID ? (
-          <div id="googleSignInBtn" className="google-signin-container" />
-        ) : (
-          <button type="button" className="google-login-btn" disabled>
-            <img src="/google-logo.png" alt="Google" />
-            Google Sign-In (not configured)
-          </button>
-        )}
 
         <p className="login-register-link">
           Don't have an account? <Link to="/register">Sign Up</Link>
         </p>
 
         <p className="login-footer-text">
-          Need help? <a href="mailto:hello@web-o-builts.com">Contact us</a>
+          Need help? <a href="mailto:webobuilts@gmail.com">Contact us</a>
         </p>
       </motion.div>
 

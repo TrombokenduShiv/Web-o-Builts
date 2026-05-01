@@ -239,3 +239,20 @@
 @media (max-width: 768px) {
   .sidebar { display: none; }
 }
+
+/* ── Logo Glow ── */
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.15))
+            drop-shadow(0 0 8px rgba(124, 58, 237, 0.08));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35))
+            drop-shadow(0 0 20px rgba(124, 58, 237, 0.15))
+            drop-shadow(0 0 30px rgba(236, 72, 153, 0.08));
+  }
+}
+
+.sidebar-logo-img {
+  animation: logoGlow 3s ease-in-out infinite;
+}
